@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="main.css" />
+<script src="js/jquery.js"></script>
+<script type="text/javascript" src="js/canvas_to_map.js"></script>
+<script type="text/javascript" src="js/editor.js"></script>
+<form method="GET" action="index.html">
+    title: <input type="text" value="" id="title" name="title"/>
+    <input type="button" value="save" onclick="save();"/>
+    <br/>
+    <input type="button" value="clear_maps" onclick="clear_maps();"/>
+    <input type="hidden" name="action"
+        value="load_from_local_storage"/>
+    <select id="maps" >
+    </select>
+    <input type="submit" value="test" onsubmit="save(); "/>
+</form>
+<br/>
+<input type="button" id="nail" class="edit_button"
+onclick="select_tool(this);" title="write nails"
+style="color: black;">
+<input type="button" id="ok" class="edit_button"
+onclick="select_tool(this);" title="write ok sign"
+style="color: rgb(0, 255, 0);">
+<input type="button" id="nok" class="edit_button"
+onclick="select_tool(this);" title="write not ok sign"
+style="color: red;">
+<input type="button" id="limit" class="edit_button"
+onclick="select_tool(this);" title="write limit"
+style="color: blue;">
+<input type="button" value="undo" onclick="undo();"/>
+<br/>
+<script type="text/javascript">
+    setup_maps_list()
+    setup_editor();
+</script>
