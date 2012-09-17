@@ -1,7 +1,7 @@
 var marble;
 var marble_delta = 0;
-var marble_droped = false;
-var done = false;
+var marble_droped;
+var done;
 var cases;
 function image_to_map(image)
 {
@@ -71,6 +71,19 @@ function create_wood(scene, cases)
     scene.add(wood_right);
     scene.add(wood_bottom);
 }
+function marble_setup(scene) {
+    done = false;
+    marble_droped = false;
+    if(marble != undefined) scene.remove(marble);
+    marble = new THREE.Mesh(
+            new THREE.SphereGeometry(2, 20, 20),
+            new THREE.MeshLambertMaterial( { color: 0x0000AA }
+                ));
+    marble.position.y = 100;
+    marble.position.z = +10;
+    marble.position.x = Math.random() * 100 - 50;
+    scene.add(marble);
+}
 function marble_drop()
 {
     if(marble_droped) return;
@@ -81,8 +94,13 @@ function marble_drop()
             new THREE.SphereGeometry(2, 20, 20),
             new THREE.MeshLambertMaterial( { color: 0x0000AA }
                 ));
+    var last_object_collided = null;
     marble.addEventListener('collision', function(object) {
-        console.log("collision");
+        if(object != last_object_collided) {
+            console.log("collision");
+            new Audio("sound/collision.ogg").play();
+            last_object_collided = object;
+        }
     });
     marble.rotation.z = 3.14/4;
     marble.position.y = 100;
@@ -91,20 +109,15 @@ function marble_drop()
     scene.add(marble);
 }
 function getUrlVars() {
-        var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                        vars[key] = value;
-                            });
-                return vars;
+    var vars = {};
+    var parts = window.location.href.replace(
+            /[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+    return vars;
 }
 function createBoard(scene) {
-    marble = new THREE.Mesh(
-            new THREE.SphereGeometry(2, 20, 20),
-            new THREE.MeshLambertMaterial( { color: 0x0000AA }
-                ));
-    marble.position.y = 100;
-    marble.position.z = +10;
-    marble.position.x = Math.random() * 100 - 50;
+    marble_setup(scene);
     if(getUrlVars()["action"] == "load_from_local_storage")
     {
         setup_map(JSON.parse(localStorage
@@ -143,7 +156,6 @@ function setup_map(result)
     }
     create_wood(scene, cases);
     scene.add(nail);
-    scene.add(marble);
 }
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       || 
@@ -237,4 +249,8 @@ function main()
     requestAnimFrame(main);
     controls.update();
     render();
+}
+function restart()
+{
+    marble_setup();
 }
