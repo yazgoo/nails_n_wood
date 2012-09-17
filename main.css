@@ -50,3 +50,17 @@ body
     #limit {
         background-image: url('img/fst_787q223ujd_4.jpg');
     }
+    #message {
+        position: relative;
+        top: 150px;
+        left: 150px;
+        width: 300px;
+        font-family: "Sans-serif";
+        height: 150px;
+        border-radius: 20px;
+        vertical-align: middle;
+        background-color: #db862f;
+        text-align: center;
+        visibility: hidden;
+        border: 3px solid #724518;
+    }

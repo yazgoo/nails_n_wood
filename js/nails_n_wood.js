@@ -3,6 +3,7 @@ var marble_delta = 0;
 var marble_droped;
 var done;
 var cases;
+var objects;
 function image_to_map(image)
 {
     var canvas = $('<canvas/>').css( {
@@ -63,12 +64,24 @@ function create_wood(scene, cases)
         sign.position.y = -100 + 25/2;
         sign.position.z = 5.1;
         //sign.rotation.y = 3.14 / 2;
+        //sign.receiveShadow = true;
+        objects.push(sign);
         scene.add(sign);
+        //sign.receiveShadow = true;
+        objects.push(case_);
         scene.add(case_);
     }
+    //wood_back.receiveShadow = true;
+    objects.push(wood_back);
     scene.add(wood_back);
+    //wood_left.receiveShadow = true;
+    objects.push(wood_left);
     scene.add(wood_left);
+    //wood_right.receiveShadow = true;
+    objects.push(wood_right);
     scene.add(wood_right);
+    //wood_bottom.receiveShadow = true;
+    objects.push(wood_bottom);
     scene.add(wood_bottom);
 }
 function marble_setup(scene) {
@@ -83,6 +96,7 @@ function marble_setup(scene) {
     marble.position.z = +10;
     marble.position.x = Math.random() * 100 - 50;
     scene.add(marble);
+    console.log("added marble");
 }
 function marble_drop()
 {
@@ -94,6 +108,7 @@ function marble_drop()
             new THREE.SphereGeometry(2, 20, 20),
             new THREE.MeshLambertMaterial( { color: 0x0000AA }
                 ));
+    marble.castShadow = true;
     var last_object_collided = null;
     marble.addEventListener('collision', function(object) {
         if(object != last_object_collided) {
@@ -134,6 +149,7 @@ function createBoard(scene) {
 }
 function setup_map(result)
 {
+    objects = [];
     var map = result.nails;
     var cases = result.cases;
     var nail_material = new THREE.MeshPhongMaterial(
@@ -145,17 +161,18 @@ function setup_map(result)
         metal: true,
         shading: THREE.SmoothShading }
         );
-    var nail_geometry = new THREE.CylinderGeometry(0.4, 1, 20);
+    var nail_geometry = new THREE.CylinderGeometry(0.2, 0.7, 20);
+    var nails = [];
     for(var i in map) {
         var nail = new Physijs.BoxMesh(nail_geometry, nail_material, 0);
-        nail.rotation.x = 3.14/2;
+        nail.rotation.x = -3.14/2;
         nail.position.x = map[i][0] * 100 - 50;
         nail.position.y = 100 - map[i][1] * 200;
         nail.position.z = 10;
         scene.add(nail);
+        objects.push(nail);
     }
     create_wood(scene, cases);
-    scene.add(nail);
 }
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       || 
@@ -171,11 +188,7 @@ var scene;
 var camera;
 var renderer;
 var controls;
-function nails_n_wood() {
-    Physijs.scripts.worker = 'js/physijs_worker.js';
-    Physijs.scripts.ammo = 'ammo.js';
-    scene = new Physijs.Scene();
-    var $container = $('#container');
+function setup_controls() {
     $("#controls").html(
             '<input type="button"'
             + 'onmousedown="marble_delta = -1 + 0.1;"'
@@ -185,10 +198,24 @@ function nails_n_wood() {
             + 'onclick="marble_drop();"'
             + 'value="drop"/>'
             + '<input type="button"'
+            + 'onclick="restart();"'
+            + 'value="restart"/>'
+            + '<input type="button"'
             + 'onmousedown="marble_delta = 1;"'
             + 'onmouseup="marble_delta = 0;"'
-            + 'value="&gt;"/>');
+            + 'value="&gt;"/>'
+            + '<div id="message"></div>'
+            );
+}
+function nails_n_wood() {
+    Physijs.scripts.worker = 'js/physijs_worker.js';
+    Physijs.scripts.ammo = 'ammo.js';
+    scene = new Physijs.Scene();
+    var $container = $('#container');
+    setup_controls();
     renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.shadowMapEnabled = true;
+    renderer.shadowMapSoft = true;
     camera = new THREE.PerspectiveCamera(45,
             $container.width() / $container.height(), 0.1, 1000);
     camera.position.z = 300;
@@ -231,17 +258,13 @@ function end_game(x)
     for(i in cases)
         if(i == (cases[i].length - 1) || x < cases[i].position)
         {
-            var restart =
-                "<input value=\'restart\' type=\'button\' onclick=\'restart\'/>";
-            var next =
-                "<input value=\'next\' type=\'button\' onclick=\'next\'/>";
-            var previous =
-                "<input value=\'previous\' type=\'button\' onclick=\'previous\'/>";
-            var buttons = "<br/>" + previous + restart + next;
+            var message =
+                $("#message").css("visibility", "visible");
             if(cases[i].ok)
-                $("#controls").html("You won!" + buttons);
-            else
-                $("#controls").html("You failed!" + buttons);
+                message.html("<br/><br/>You won!<br/>"
+                        + "<input type='button' value='next'"
+                        + " onclick='next()'/>");
+            else message.html("<br/><br/>You failed!");
         }
 }
 function main()
@@ -252,5 +275,17 @@ function main()
 }
 function restart()
 {
-    marble_setup();
+    marble_setup(scene);
+    setup_controls();
+}
+function next()
+{
+    var message = $("#message").css("visibility", "hidden");
+    for(i in objects) scene.remove(objects[i]);
+    var image = new Image();
+    $(image).load(function() {
+        setup_map(image_to_map(image));
+    });
+    image.src = "map/1.png";
+    marble_setup(scene);
 }
