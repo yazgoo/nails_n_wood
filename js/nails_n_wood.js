@@ -249,6 +249,14 @@ function render()
         done = true;
         end_game(marble.position.x);
     }
+    if(marble.position.x > 48)
+    {
+        marble.position.x = 47;
+    }
+    if(marble.position.x < -48)
+    {
+        marble.position.x = -47; 
+    }
     if(!done) scene.simulate();
     renderer.render(scene, camera);
 }

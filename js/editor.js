@@ -2,6 +2,7 @@ var tool;
 var canvas;
 var color;
 var pixels = [];
+var factory = MapsFactory("localStorage");
 function set_size(id, new_size)
 {
     $("#" + id).css(
@@ -94,39 +95,23 @@ function save()
         alert("please select a title for your map");
         return;
     }
-    var maps = get_maps();
-    var name = "map_" + title;
-    localStorage[name] =
-        JSON.stringify(canvas_to_map(canvas[0], 4));
-    maps[name] = true;
-    localStorage.maps = JSON.stringify(maps);
-    setup_maps_list();
+    factory.save(title, canvas_to_map(canvas[0], 4),
+            setup_maps_list);
+}
+function delete_map()
+{
+    factory.delete($("#title").val(), setup_maps_list);
 }
 function clear_maps()
 {
-    localStorage.removeItem("maps");
-    setup_maps_list();
-}
-function get_maps()
-{
-    if(!localStorage.maps) return {};
-    else
-    {
-        try
-        {
-            return JSON.parse(localStorage.maps);
-        }
-        catch(SyntaxError)
-        {
-            return {};
-        }
-    }
+    factory.deleteAll(setup_maps_list);
 }
 function load_map_from_name(name)
 {
     if(name == "") return;
-    $("#title").val(name.substring(4));
-    load_map(JSON.parse(localStorage[name]));
+    $("#title").val(name)
+    factory.load(name,
+            function(map) { load_map(map); });
 }
 function load_map(map)
 {
@@ -153,10 +138,10 @@ function load_map(map)
 }
 function setup_maps_list()
 {
-    var maps = get_maps();
+    var maps = factory.list();
     var list = $("#maps");
     list.html("<option value=''></option>");
-    for(name in maps) list.append( $("<option value="
-                + name + ">" + name.substring(4) + "</option>"));
+    for(i in maps) list.append( $("<option value="
+                + maps[i] + ">" + maps[i] + "</option>"));
     list.change( function() { load_map_from_name($(this).val()) });
 }

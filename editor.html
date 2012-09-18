@@ -1,12 +1,14 @@
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script src="js/jquery.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/editor.js"></script>
 <form method="GET" action="index.html">
     title: <input type="text" value="" id="title" name="title"/>
     <input type="button" value="save" onclick="save();"/>
     <br/>
-    <input type="button" value="clear_maps" onclick="clear_maps();"/>
+    <input type="button" value="clear maps" onclick="clear_maps();"/>
+    <input type="button" value="delete map" onclick="delete_map();"/>
     <input type="hidden" name="action"
         value="load_from_local_storage"/>
     <select id="maps" >
