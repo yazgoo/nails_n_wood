@@ -138,10 +138,12 @@ function load_map(map)
 }
 function setup_maps_list()
 {
-    var maps = factory.list();
-    var list = $("#maps");
-    list.html("<option value=''></option>");
-    for(i in maps) list.append( $("<option value="
+    var maps = factory.list(function(maps) {
+        var list = $("#maps");
+        list.html("<option value=''></option>");
+        for(i in maps) list.append( $("<option value="
                 + maps[i] + ">" + maps[i] + "</option>"));
-    list.change( function() { load_map_from_name($(this).val()) });
+        list.change(function() {
+            load_map_from_name($(this).val()) });
+    });
 }

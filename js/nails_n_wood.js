@@ -1,22 +1,15 @@
+function Game()
+{
 var marble;
-var marble_delta = 0;
 var marble_droped;
 var done;
 var cases;
 var objects;
-function image_to_map(image)
+this.translate_marble = function(i)
 {
-    var canvas = $('<canvas/>').css( {
-        width: image.width + 'px',
-        height: image.height + 'px'
-    })[0];
-    canvas.width = image.width;
-    canvas.height = image.height;
-    var context = canvas.getContext('2d');
-    context.drawImage(image, 0, 0);
-    return canvas_to_map(canvas, 1);
+    if(!marble_droped) marble.position.x += i;
 }
-function create_wood(scene, cases)
+var create_wood = function(scene, cases)
 {
     var wood_material = new THREE.MeshLambertMaterial( { 
                 map: THREE.ImageUtils.loadTexture(
@@ -84,7 +77,7 @@ function create_wood(scene, cases)
     objects.push(wood_bottom);
     scene.add(wood_bottom);
 }
-function marble_setup(scene) {
+var marble_setup = function(scene) {
     done = false;
     marble_droped = false;
     if(marble != undefined) scene.remove(marble);
@@ -96,9 +89,8 @@ function marble_setup(scene) {
     marble.position.z = +10;
     marble.position.x = Math.random() * 100 - 50;
     scene.add(marble);
-    console.log("added marble");
 }
-function marble_drop()
+this.marble_drop = function()
 {
     if(marble_droped) return;
     marble_droped = true;
@@ -123,31 +115,12 @@ function marble_drop()
     marble.position.x = old_x;
     scene.add(marble);
 }
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(
-            /[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-    return vars;
-}
-function createBoard(scene) {
+this.load_and_setup_map = function(map) {
+    console.log(map);
     marble_setup(scene);
-    if(getUrlVars()["action"] == "load_from_local_storage")
-    {
-        setup_map(JSON.parse(localStorage
-                    ["map_" + getUrlVars()["title"]]));
-    }
-    else
-    {
-        var image = new Image();
-        $(image).load(function() {
-            setup_map(image_to_map(image));
-        });
-        image.src = "map/0.png";
-    }
+    setup_map(map);
 }
-function setup_map(result)
+var setup_map = function(result)
 {
     objects = [];
     var map = result.nails;
@@ -188,31 +161,11 @@ var scene;
 var camera;
 var renderer;
 var controls;
-function setup_controls() {
-    $("#controls").html(
-            '<input type="button"'
-            + 'onmousedown="marble_delta = -1 + 0.1;"'
-            + 'onmouseup="marble_delta = 0;"'
-            + 'value="&lt;"/>'
-            + '<input type="button"'
-            + 'onclick="marble_drop();"'
-            + 'value="drop"/>'
-            + '<input type="button"'
-            + 'onclick="restart();"'
-            + 'value="restart"/>'
-            + '<input type="button"'
-            + 'onmousedown="marble_delta = 1;"'
-            + 'onmouseup="marble_delta = 0;"'
-            + 'value="&gt;"/>'
-            + '<div id="message"></div>'
-            );
-}
-function nails_n_wood() {
+this.setup_interface = function() {
     Physijs.scripts.worker = 'js/physijs_worker.js';
     Physijs.scripts.ammo = 'ammo.js';
     scene = new Physijs.Scene();
     var $container = $('#container');
-    setup_controls();
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.shadowMapEnabled = true;
     renderer.shadowMapSoft = true;
@@ -221,7 +174,6 @@ function nails_n_wood() {
     camera.position.z = 300;
     renderer.setSize($container.width(), $container.height());
     $container.append(renderer.domElement);
-    createBoard(scene);
     scene.add(camera);
     var pointLight = new THREE.PointLight( 0xFFFFFF );
     controls = new THREE.TrackballControls(camera);
@@ -239,10 +191,10 @@ function nails_n_wood() {
     pointLight.position.z = 130;
     scene.add(pointLight);
 };
-function render()
+var render = function()
 {
+    if(marble == undefined) return;
     marble.position.z = 10;
-    if(!marble_droped) marble.position.x += marble_delta;
     if(marble.position.y < -96)
     {
         marble.position.y = -96;
@@ -260,7 +212,7 @@ function render()
     if(!done) scene.simulate();
     renderer.render(scene, camera);
 }
-function end_game(x)
+var end_game = function(x)
 {
     var x = x / 100.0;
     for(i in cases)
@@ -275,25 +227,23 @@ function end_game(x)
             else message.html("<br/><br/>You failed!");
         }
 }
-function main()
+var m = function()
 {
-    requestAnimFrame(main);
+    requestAnimFrame(m);
     controls.update();
     render();
 }
-function restart()
+this.main = m;
+var restart = function()
 {
     marble_setup(scene);
     setup_controls();
 }
-function next()
+var next = function()
 {
     var message = $("#message").css("visibility", "hidden");
     for(i in objects) scene.remove(objects[i]);
-    var image = new Image();
-    $(image).load(function() {
-        setup_map(image_to_map(image));
-    });
-    image.src = "map/1.png";
-    marble_setup(scene);
+    var maps = MapsFactory("http");
+    load_and_setup_map(scene, "1");
+}
 }

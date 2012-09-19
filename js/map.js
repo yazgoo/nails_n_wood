@@ -33,7 +33,7 @@ function LocalStorageMaps()
             }
         }
     }
-    this.list = function()
+    this.list = function(callback)
     {
         var result = [];
         var names = list_names();
@@ -70,9 +70,52 @@ function LocalStorageMaps()
         callback();
     }
 }
+function HttpImageStorageMaps()
+{
+    var map_directory = "./map/";
+    var list_path = map_directory + "list.json";
+    function get_list(callback)
+    {
+        $.getJSON(list_path,
+                function(list, textStatus, jqXHR) {
+                    callback(list); }).error(function() { alert("error"); });
+    }
+    this.list = function(callback)
+    {
+        get_list(function(names) {
+            var result = [];
+            for(var name in names) {
+                result.push(name); callback(result);} });
+    }
+    this.load = function(name, callback)
+    {
+        get_list(function(list) {
+            console.log(list);
+            var image = new Image();
+            $(image).load(function() {
+                callback(image_to_map(image));
+            });
+            image.src = "map/"  + list[name].path;
+        });
+    }
+    this.save = function(name, value, callback)
+    {
+        console.log("not implemented");
+    }
+    this.delete = function(name, callback)
+    {
+        console.log("not implemented");
+    }
+    this.deleteAll = function(callback)
+    {
+        console.log("not implemented");
+    }
+}
 function MapsFactory(type)
 {
     console.log(localStorage);
     if(type == "localStorage")
         return new LocalStorageMaps();
+    else if(type == "http")
+        return new HttpImageStorageMaps();
 }
