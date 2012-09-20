@@ -1,12 +1,11 @@
 <link rel="stylesheet" type="text/css" href="main.css" />
-<script src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/editor.js"></script>
 <form method="GET" action="index.html">
     title: <input type="text" value="" id="title" name="title"/>
     <input type="button" value="save" onclick="save();"/>
-    <br/>
     <input type="button" value="clear maps" onclick="clear_maps();"/>
     <input type="button" value="delete map" onclick="delete_map();"/>
     <input type="hidden" name="action"
@@ -15,7 +14,6 @@
     </select>
     <input type="submit" value="test" onsubmit="save(); "/>
 </form>
-<br/>
 <input type="button" id="nail" class="edit_button"
 onclick="select_tool(this);" title="write nails"
 style="color: black;">
@@ -29,7 +27,7 @@ style="color: red;">
 onclick="select_tool(this);" title="write limit"
 style="color: blue;">
 <input type="button" value="undo" onclick="undo();"/>
-<br/>
+<div id="editor_canvas_container"></div>
 <script type="text/javascript">
     setup_maps_list()
     setup_editor();

@@ -83,7 +83,7 @@ function setup_editor()
 {
     $("#title").val("");
     setup_canvas();
-    $("body").append(canvas);
+    $("#editor_canvas_container").append(canvas);
     canvas.click(function (e) { set_pixel_color(e, color,
                 color != "#000000"); });
 }

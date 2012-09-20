@@ -38,6 +38,10 @@ body
         outline: none;
         -moz-outline-style: none;
     }
+    #editor_canvas_container {
+        height: 420px;
+        overflow-y: scroll;
+    }
     #nail {
         background-image: url('img/nail.png');
     }

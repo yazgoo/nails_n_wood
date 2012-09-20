@@ -39,8 +39,7 @@ function LocalStorageMaps()
         var names = list_names();
         for(var name in names)
             result.push(prefixed_name_to_name(name));
-        console.log(names);
-        return result;
+        callback(result);
     }
     this.load = function(name, callback)
     {
@@ -90,7 +89,6 @@ function HttpImageStorageMaps()
     this.load = function(name, callback)
     {
         get_list(function(list) {
-            console.log(list);
             var image = new Image();
             $(image).load(function() {
                 callback(image_to_map(image));
@@ -113,7 +111,6 @@ function HttpImageStorageMaps()
 }
 function MapsFactory(type)
 {
-    console.log(localStorage);
     if(type == "localStorage")
         return new LocalStorageMaps();
     else if(type == "http")
