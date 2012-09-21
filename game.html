@@ -1,0 +1,69 @@
+<link rel="stylesheet" type="text/css" href="main.css" />
+<!--
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/physi.js"></script>
+<script type="text/javascript" src="js/canvas_to_map.js"></script>
+<script type="text/javascript" src="js/nails_n_wood.js"></script>
+-->
+<div id="container"></div>
+<div id="controls"></div>
+<script type="text/javascript">
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(
+                /[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+                });
+        return vars;
+    }
+var image_to_map = function(image)
+{
+    var canvas = $('<canvas/>').css( {
+width: image.width + 'px',
+height: image.height + 'px'
+})[0];
+canvas.width = image.width;
+canvas.height = image.height;
+var context = canvas.getContext('2d');
+context.drawImage(image, 0, 0);
+return canvas_to_map(canvas, 1);
+}
+function load_map()
+{
+    var map_name;
+    var storage_type;
+    if(getUrlVars()["action"] == "load_from_local_storage") {
+        storage_type = "localStorage";
+        map_name = getUrlVars()["title"];
+    } else {
+        storage_type = "http";
+        map_name = "0";
+    }
+    var maps = MapsFactory(storage_type);
+    maps.load(map_name, game.load_and_setup_map);
+}
+var setup_controls = function() {
+    $("#controls").html(
+            '<input type="button"'
+            + 'onmousedown="game.translate_marble(-0.9);"'
+            + 'value="&lt;"/>'
+            + '<input type="button"'
+            + 'onclick="game.marble_drop();"'
+            + 'value="drop"/>'
+            + '<input type="button"'
+            + 'onclick="game.restart();"'
+            + 'value="restart"/>'
+            + '<input type="button"'
+            + 'onmousedown="game.translate_marble(0.9);"'
+            + 'value="&gt;"/>'
+            + '<div id="message"></div>'
+            );
+}
+var game = new Game();
+game.setup_interface();
+setup_controls();
+load_map();
+game.main();
+</script>

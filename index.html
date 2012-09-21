@@ -1,69 +1,80 @@
-<link rel="stylesheet" type="text/css" href="main.css" />
-<!--
+<style>
+    body
+    {
+        background-image: url("img/background.png");
+    }
+    #menu_container
+    {
+        width: 650px;
+        height: 555px;
+        border: 3px solid black;
+        font-family: "Sans-serif";
+        border-radius: 20px;
+        text-align: center;
+        padding-top: 10px;
+        background-color: white;
+        opacity:0.9;
+    }
+    #map
+    {
+        border: 3px solid black;
+        font-family: "Sans-serif";
+        border-radius: 20px;
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        text-align: center;
+    }
+    #list
+    {
+        border-bottom: 3px solid black;
+    }
+    #title
+    {
+        border-bottom: 3px solid black;
+    }
+</style>
+<script src="js/jquery.js"></script>
+<script src="js/map.js"></script>
+<script src="js/container.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript" src="js/physi.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/nails_n_wood.js"></script>
--->
-<div id="container"></div>
-<div id="controls"></div>
-<script type="text/javascript">
-    function getUrlVars() {
-        var vars = {};
-        var parts = window.location.href.replace(
-                /[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
+<body>
+<div id="menu_container"></div>
+<script>
+    new Container("#menu_container", function(container) {
+        container.addImage("img/logo.png");
+        container.render();
+        setTimeout(function()
+        {
+            container.clear();
+            a = {"Official Maps": "http",
+                "Your Maps": "localStorage"};
+            for(name in a) {
+                container.addSection(name, function(section) {
+                    MapsFactory(a[name]).list(function(list) {
+                        for(i in list) {
+                            section.addButton(list[i],
+                            function(value) {
+                                container.pushState().clear();
+                                container.include("game.html");
+                            });
+                        }
+                        container.render();
+                }) });
+            }
+            container.addSection("Editor", function(section) {
+                section.addButton("Edit",
+                function(value) {
+                    container.pushState()
+                    .clear().include("editor.html");
                 });
-        return vars;
-    }
-var image_to_map = function(image)
-{
-    var canvas = $('<canvas/>').css( {
-width: image.width + 'px',
-height: image.height + 'px'
-})[0];
-canvas.width = image.width;
-canvas.height = image.height;
-var context = canvas.getContext('2d');
-context.drawImage(image, 0, 0);
-return canvas_to_map(canvas, 1);
-}
-function load_map()
-{
-    var map_name;
-    var storage_type;
-    if(getUrlVars()["action"] == "load_from_local_storage") {
-        storage_type = "localStorage";
-        map_name = getUrlVars()["title"];
-    } else {
-        storage_type = "http";
-        map_name = "0";
-    }
-    var maps = MapsFactory(storage_type);
-    maps.load(map_name, game.load_and_setup_map);
-}
-var setup_controls = function() {
-    $("#controls").html(
-            '<input type="button"'
-            + 'onmousedown="game.translate_marble(-0.9);"'
-            + 'value="&lt;"/>'
-            + '<input type="button"'
-            + 'onclick="game.marble_drop();"'
-            + 'value="drop"/>'
-            + '<input type="button"'
-            + 'onclick="game.restart();"'
-            + 'value="restart"/>'
-            + '<input type="button"'
-            + 'onmousedown="game.translate_marble(0.9);"'
-            + 'value="&gt;"/>'
-            + '<div id="message"></div>'
-            );
-}
-var game = new Game();
-game.setup_interface();
-setup_controls();
-load_map();
-game.main();
+            })
+        }, 2000);
+    });
 </script>
+</body>

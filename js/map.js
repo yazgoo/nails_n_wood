@@ -84,7 +84,7 @@ function HttpImageStorageMaps()
         get_list(function(names) {
             var result = [];
             for(var name in names) {
-                result.push(name); callback(result);} });
+                result.push(name);} callback(result); });
     }
     this.load = function(name, callback)
     {

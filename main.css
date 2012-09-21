@@ -4,11 +4,11 @@ body
 }
 #container {
     width: 600px;
-    height: 600px;
+    height: 550px;
     }
     #controls {
         position: relative;
-        top: -600px;
+        top: -550px;
         width: 600px;
         height: 600px;
     }

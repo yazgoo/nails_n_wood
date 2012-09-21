@@ -61,6 +61,7 @@ function Container(name, callback)
                 return "<img width='450' src='" + path + "'/>";
             }
         });
+        return this;
     }
     function Section(name, callback)
     {
