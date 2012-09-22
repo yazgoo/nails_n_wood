@@ -1,13 +1,17 @@
-<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="style/main.css" />
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/editor.js"></script>
 <form method="GET" action="index.html">
-    title: <input type="text" value="" id="title" name="title"/>
+    title:<input type="text" value="" id="title" name="title"
+    size="15"/>
     <input type="button" value="save" onclick="save();"/>
+    <input type="button" value="download" onclick="download();"/>
+    <input type="file" value="upload"
+    onchange="upload(this);" size="1">
     <input type="button" value="clear maps" onclick="clear_maps();"/>
-    <input type="button" value="delete map" onclick="delete_map();"/>
+    <input type="button" value="delete" onclick="delete_map();"/>
     <input type="hidden" name="action"
         value="load_from_local_storage"/>
     <select id="maps" >

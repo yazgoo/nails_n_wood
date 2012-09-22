@@ -87,16 +87,39 @@ function setup_editor()
     canvas.click(function (e) { set_pixel_color(e, color,
                 color != "#000000"); });
 }
-function save()
+function getTitle()
 {
     var title = $("#title").val();
     if(title == "")
     {
         alert("please select a title for your map");
-        return;
+        return undefined;
     }
-    factory.save(title, canvas_to_map(canvas[0], 4),
+    return title;
+}
+function save()
+{
+    var title = getTitle();
+    if(title != undefined)
+        factory.save(title, canvas_to_map(canvas[0], 4),
             setup_maps_list);
+}
+function download()
+{
+    var title = getTitle();
+    if(title != undefined)
+        window.open("data:text/json," + encodeURIComponent(
+                    JSON.stringify(canvas_to_map(canvas[0], 4))));
+}
+function upload(input)
+{
+    var file_reader = new FileReader();
+    file_reader.onload = (function(theFile) {
+        return function(e) {
+            load_map(JSON.parse(e.target.result));
+        };
+    })(input.files[0]);
+    file_reader.readAsText(input.files[0]);
 }
 function delete_map()
 {
