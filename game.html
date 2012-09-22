@@ -1,12 +1,9 @@
 <link rel="stylesheet" type="text/css" href="main.css" />
-<!--
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
-<script type="text/javascript" src="js/physi.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/nails_n_wood.js"></script>
--->
 <div id="container"></div>
 <div id="controls"></div>
 <script type="text/javascript">
@@ -61,9 +58,22 @@ var setup_controls = function() {
             + '<div id="message"></div>'
             );
 }
-var game = new Game();
+var game;
+    function GameInstance()
+{
+game = new Game();
 game.setup_interface();
 setup_controls();
 load_map();
 game.main();
+}
+if(typeof("Physijs") != "function")
+{
+    $.getScript("js/physi.js", function() {
+            GameInstance(); });
+}
+else
+{
+    GameInstance();
+}
 </script>
