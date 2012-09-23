@@ -16,11 +16,8 @@ Installing
 Running
 -------
 Point your browser to nails'n wood directory or to index.html
-Testing and map designing
--------------------------
-This game needs testers and map designers. If you're interrested,
-simply open issuses or contact yazgoo.
-
+Map designing
+-------------
 To edit maps, just run the editor via the main interface or open
 editor.html.
 You can also create maps with your favourite image editor.
