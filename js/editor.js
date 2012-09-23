@@ -127,7 +127,8 @@ function delete_map()
 }
 function clear_maps()
 {
-    factory.deleteAll(setup_maps_list);
+    if(confirm("This will delete all your maps. Are you sure ?"))
+            factory.deleteAll(setup_maps_list);
 }
 function load_map_from_name(name)
 {

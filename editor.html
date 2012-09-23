@@ -3,20 +3,25 @@
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/editor.js"></script>
-<form method="GET" action="index.html">
+<form method="GET" action="game.html">
     title:<input type="text" value="" id="title" name="title"
     size="15"/>
-    <input type="button" value="save" onclick="save();"/>
-    <input type="button" value="download" onclick="download();"/>
+    <input type="button" id="_save" class="edit_button"
+    onclick="save();" title="save"/>
+    <input type="button" id="_download" class="edit_button"
+    onclick="download();" title="download"/>
     <input type="file" value="upload"
     onchange="upload(this);" size="1">
-    <input type="button" value="clear maps" onclick="clear_maps();"/>
-    <input type="button" value="delete" onclick="delete_map();"/>
+    <input type="button" id="_delete_all" class="edit_button"
+    onclick="clear_maps();" title="delete_all"/>
+    <input type="button" id="_delete" class="edit_button"
+    onclick="delete_map();" title="delete"/>
     <input type="hidden" name="action"
         value="load_from_local_storage"/>
     <select id="maps" >
     </select>
-    <input type="submit" value="test" onsubmit="save(); "/>
+    <input type="submit" id="_test" class="edit_button"
+    onsubmit="save();" title="test" value=""/>
 </form>
 <input type="button" id="nail" class="edit_button"
 onclick="select_tool(this);" title="write nails"
@@ -30,7 +35,8 @@ style="color: red;">
 <input type="button" id="limit" class="edit_button"
 onclick="select_tool(this);" title="write limit"
 style="color: blue;">
-<input type="button" value="undo" onclick="undo();"/>
+<input type="button" id="_undo" class="edit_button"
+onclick="undo();" title="undo"/>
 <div id="editor_canvas_container"></div>
 <script type="text/javascript">
     setup_maps_list()

@@ -51,6 +51,24 @@ body
     #nok {
         background-image: url('../img/nok.png');
     }
+    #_save {
+        background-image: url('../img/save.png');
+    }
+    #_delete {
+        background-image: url('../img/delete.png');
+    }
+    #_delete_all {
+        background-image: url('../img/delete_all.png');
+    }
+    #_undo {
+        background-image: url('../img/undo.png');
+    }
+    #_test {
+        background-image: url('../img/test.png');
+    }
+    #_download {
+        background-image: url('../img/download.png');
+    }
     #limit {
         background-image: url('../img/fst_787q223ujd_4.jpg');
     }
