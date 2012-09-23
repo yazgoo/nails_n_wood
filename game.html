@@ -46,10 +46,35 @@ function load_map()
     var maps = MapsFactory(storage_type);
     maps.load(map_name, game.load_and_setup_map);
 }
+var translation_action = null;
+function start_marble_translation_left()
+{
+    translation_action =
+        setInterval(run_marble_translation_left, 100);
+}
+function run_marble_translation_left()
+{
+    game.translate_marble(-0.9);
+}
+function start_marble_translation_right()
+{
+    translation_action =
+        setInterval(run_marble_translation_right, 100);
+}
+function run_marble_translation_right()
+{
+    game.translate_marble(0.9);
+}
+function stop_marble_translation()
+{
+    clearInterval(translation_action);
+    translation_action = null;
+}
 var setup_controls = function() {
     $("#controls").html(
             '<input type="button"'
-            + 'onmousedown="game.translate_marble(-0.9);"'
+            + 'onmousedown="start_marble_translation_left();" '
+            + 'onmouseup="stop_marble_translation();" '
             + 'value="&lt;"/>'
             + '<input type="button"'
             + 'onclick="game.marble_drop();"'
@@ -58,7 +83,8 @@ var setup_controls = function() {
             + 'onclick="game.restart();"'
             + 'value="restart"/>'
             + '<input type="button"'
-            + 'onmousedown="game.translate_marble(0.9);"'
+            + 'onmousedown="start_marble_translation_right();"'
+            + 'onmouseup="stop_marble_translation();"'
             + 'value="&gt;"/>'
             + '<div id="message"></div>'
             );

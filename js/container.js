@@ -27,6 +27,10 @@ function Container(name, callback)
                 });
         this.render();
     }
+    this.addLink = function(url, text)
+    {
+        this.setHtml("<a href='" + url + "'>" + text + "</a>");
+    }
     this.include = function(page, map)
     {
         var container = this;

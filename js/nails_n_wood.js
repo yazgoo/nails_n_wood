@@ -3,7 +3,7 @@ function Game()
     var marble;
     var marble_droped;
     var done;
-    var cases;
+    this.cases;
     var objects;
     this.translate_marble = function(i)
     {
@@ -123,7 +123,7 @@ function Game()
     {
         objects = [];
         var map = result.nails;
-        var cases = result.cases;
+        this.cases = result.cases;
         var nail_material = new THREE.MeshPhongMaterial(
                 {
                     color: 0x777777,
@@ -214,9 +214,12 @@ function Game()
     var end_game = function(x)
     {
         var x = x / 100.0;
-        for(i in cases)
+        for(i in this.cases)
+        {
+            console.log("cases: " + i);
             if(i == (cases[i].length - 1) || x < cases[i].position)
             {
+                console.log("in case " + i);
                 var message =
                     $("#message").css("visibility", "visible");
                 if(cases[i].ok)
@@ -224,7 +227,9 @@ function Game()
                             + "<input type='button' value='next'"
                             + " onclick='next()'/>");
                 else message.html("<br/><br/>You failed!");
+                return;
             }
+        }
     }
     var m = function()
     {
@@ -233,12 +238,12 @@ function Game()
         render();
     }
     this.main = m;
-    var restart = function()
+    this.restart = function()
     {
         marble_setup(scene);
         setup_controls();
     }
-    var next = function()
+    this.next = function()
     {
         var message = $("#message").css("visibility", "hidden");
         for(i in objects) scene.remove(objects[i]);
