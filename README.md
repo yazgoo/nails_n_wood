@@ -25,9 +25,12 @@ To edit maps, just run the editor via the main interface or open
 editor.html.
 You can also create maps with your favourite image editor.
 Here are current conventions:
+
 - use width 100 x height 100 pixel
 - a black pixel's a nails
+
 To draw the targets, on the next line put the pixels colors:
+
 - ok sign: green
 - not ok sign: red
 - limit between two targets: blue
