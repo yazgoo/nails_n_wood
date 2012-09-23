@@ -23,7 +23,7 @@ editor.html.
 You can also create maps with your favourite image editor.
 Here are current conventions:
 
-- use width 100 x height 100 pixel
+- use width 100 x height 200 pixel
 - a black pixel's a nails
 
 To draw the targets, on the next line put the pixels colors:
