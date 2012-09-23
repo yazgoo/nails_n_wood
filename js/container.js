@@ -27,9 +27,11 @@ function Container(name, callback)
                 });
         this.render();
     }
-    this.include = function(page)
+    this.include = function(page, map)
     {
         var container = this;
+        var add = "";
+        this.parameters = map;
         $.get(page, function(data, textStatus, jqXHR)
                 {
                     container.setHtml(data);
@@ -38,7 +40,6 @@ function Container(name, callback)
     }
     this.pushState = function()
     {
-        console.log(this.html());
         window.history.pushState(this.html(), "Title");
         var container = this;
         window.addEventListener('popstate', function(event) {
@@ -68,11 +69,13 @@ function Container(name, callback)
         var buttons = [];
         function Button(name, callback)
         {
+            ContainerCallbacks.push(callback);
+            this.callback_id = ContainerCallbacks.length - 1;
             this.html = function()
             {
-                ContainerCallbacks.push(callback);
                 return '<input type="button" ' +
-                    'onclick="ContainerCallbacks[' + (ContainerCallbacks.length - 1) + '](\''+name+'\');" ' +
+                    'onclick="ContainerCallbacks['
+                    + this.callback_id  + '](\''+name+'\');" ' +
                     'value="' + name + '" id="map"/>';
             }
         }

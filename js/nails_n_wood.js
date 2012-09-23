@@ -116,7 +116,6 @@ function Game()
         scene.add(marble);
     }
     this.load_and_setup_map = function(map) {
-        console.log(map);
         marble_setup(scene);
         setup_map(map);
     }

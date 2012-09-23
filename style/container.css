@@ -1,0 +1,34 @@
+body
+{
+    background-image: url("img/background.png");
+}
+#menu_container
+{
+    width: 650px;
+    height: 555px;
+    border: 3px solid black;
+    font-family: "Sans-serif";
+    border-radius: 20px;
+    text-align: center;
+    padding-top: 10px;
+    background-color: white;
+    opacity:0.9;
+}
+#map
+{
+    border: 3px solid black;
+    font-family: "Sans-serif";
+    border-radius: 20px;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    text-align: center;
+}
+#list
+{
+    border-bottom: 3px solid black;
+}
+#title
+{
+    border-bottom: 3px solid black;
+}

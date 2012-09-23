@@ -12,7 +12,8 @@ type="text/css" href="style/container.css" />
 <body>
 <div id="menu_container"></div>
 <script>
-    new Container("#menu_container", function(container) {
+    var container = new Container(
+    "#menu_container", function(container) {
         container.addImage("img/logo.png");
         container.render();
         setTimeout(function()
@@ -22,12 +23,17 @@ type="text/css" href="style/container.css" />
                 "Your Maps": "localStorage"};
             for(name in a) {
                 container.addSection(name, function(section) {
-                    MapsFactory(a[name]).list(function(list) {
+                    var storage_type = a[name];
+                    MapsFactory(storage_type).list(function(list) {
                         for(i in list) {
                             section.addButton(list[i],
                             function(value) {
                                 container.pushState().clear();
-                                container.include("game.html");
+                                container.include('game.html',
+                                {
+                                    storage: storage_type,
+                                    name: value
+                                });
                             });
                             container.render();
                         }
@@ -37,7 +43,7 @@ type="text/css" href="style/container.css" />
                 section.addButton("Edit",
                 function(value) {
                     container.pushState()
-                    .clear().include("editor.html");
+                    .clear().include('editor.html');
                 });
             })
         }, 2000);

@@ -1,0 +1,70 @@
+body
+{
+    text-align: center;
+}
+#container {
+    width: 600px;
+    height: 550px;
+    }
+    #controls {
+        position: relative;
+        top: -550px;
+        width: 600px;
+        height: 600px;
+    }
+    #map {
+        height: 0;
+        visibility: hidden;
+    }
+    input {
+        background: url('../img/fst_787q223ujd_4.jpg');
+        border: 0;
+        margin: 1px;
+        font-weight: bold;
+        padding: 1px;
+        border-radius: 5px;
+    }
+    input:hover {
+        padding: 2px;
+        margin: 0;
+    }
+    .edit_button {
+        border: 3px red;
+        width: 30px;
+        height: 30px;
+        background-size:30px 30px;
+    }
+    .edit_button:active {
+        outline: none;
+        -moz-outline-style: none;
+    }
+    #editor_canvas_container {
+        height: 420px;
+        overflow-y: scroll;
+    }
+    #nail {
+        background-image: url('../img/nail.png');
+    }
+    #ok {
+        background-image: url('../img/ok.png');
+    }
+    #nok {
+        background-image: url('../img/nok.png');
+    }
+    #limit {
+        background-image: url('../img/fst_787q223ujd_4.jpg');
+    }
+    #message {
+        position: relative;
+        top: 150px;
+        left: 150px;
+        width: 300px;
+        font-family: "Sans-serif";
+        height: 150px;
+        border-radius: 20px;
+        vertical-align: middle;
+        background-color: #db862f;
+        text-align: center;
+        visibility: hidden;
+        border: 3px solid #724518;
+    }

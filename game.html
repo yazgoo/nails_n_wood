@@ -31,7 +31,12 @@ function load_map()
 {
     var map_name;
     var storage_type;
-    if(getUrlVars()["action"] == "load_from_local_storage") {
+    if(container != undefined && container.parameters != undefined)
+    {
+        storage_type = container.parameters.storage;
+        map_name = container.parameters.name;
+    }
+    else if(getUrlVars()["action"] == "load_from_local_storage") {
         storage_type = "localStorage";
         map_name = getUrlVars()["title"];
     } else {
