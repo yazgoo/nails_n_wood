@@ -18,6 +18,6 @@ This game needs testers and map designers. If you're interrested,
 simply open issuses or contact yazgoo.
 Screenshots
 -----------
-![Menu screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_menu_small.png)
-![In game screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_game_small.png)
+[![Menu screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_menu_small.png)](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_menu.png)
+[![In game screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_game_small.png)](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_game.png)
 
