@@ -104,7 +104,6 @@ function Game()
         var last_object_collided = null;
         marble.addEventListener('collision', function(object) {
             if(object != last_object_collided) {
-                console.log("collision");
                 new Audio("sound/collision.ogg").play();
                 last_object_collided = object;
             }

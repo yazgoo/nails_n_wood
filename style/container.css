@@ -27,6 +27,10 @@ body
 #list
 {
     border-bottom: 3px solid black;
+    height: 130px;
+    overflow-y: hidden;
+    white-space: nowrap;
+
 }
 #title
 {
