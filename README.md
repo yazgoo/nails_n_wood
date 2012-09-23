@@ -9,7 +9,7 @@ Screenshots
 [![In game screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_game_small.png)](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_game.png)
 Licensing
 ---------
-AGPLv3
+For all original components, AGPLv3.
 Installing
 ----------
     git clone git://github.com/yazgoo/nails_n_wood.git
@@ -24,7 +24,7 @@ You can also create maps with your favourite image editor.
 Here are current conventions:
 
 - use width 100 x height 200 pixel
-- a black pixel's a nails
+- a black pixel's a nail
 
 To draw the targets, on the next line put the pixels colors:
 
