@@ -12,6 +12,7 @@ type="text/css" href="style/container.css" />
 <body>
 <div id="menu_container"></div>
 <script>
+    $.ajaxSetup({ cache: true });
     var container = new Container(
     "#menu_container", function(container) {
         container.addImage("img/logo.png");
