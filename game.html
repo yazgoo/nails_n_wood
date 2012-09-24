@@ -49,6 +49,7 @@ function load_map()
 var translation_action = null;
 function start_marble_translation_left()
 {
+    stop_marble_translation();
     translation_action =
         setInterval(run_marble_translation_left, 100);
 }
@@ -58,6 +59,7 @@ function run_marble_translation_left()
 }
 function start_marble_translation_right()
 {
+    stop_marble_translation();
     translation_action =
         setInterval(run_marble_translation_right, 100);
 }
@@ -67,6 +69,7 @@ function run_marble_translation_right()
 }
 function stop_marble_translation()
 {
+    if(translation_action == null) return;
     clearInterval(translation_action);
     translation_action = null;
 }
@@ -74,6 +77,7 @@ var setup_controls = function() {
     $("#controls").html(
             '<input type="button"'
             + 'onmousedown="start_marble_translation_left();" '
+            + 'onmouseout="stop_marble_translation();" '
             + 'onmouseup="stop_marble_translation();" '
             + 'value="&lt;"/>'
             + '<input type="button"'
@@ -84,6 +88,7 @@ var setup_controls = function() {
             + 'value="restart"/>'
             + '<input type="button"'
             + 'onmousedown="start_marble_translation_right();"'
+            + 'onmouseout="stop_marble_translation();" '
             + 'onmouseup="stop_marble_translation();"'
             + 'value="&gt;"/>'
             + '<div id="message"></div>'
