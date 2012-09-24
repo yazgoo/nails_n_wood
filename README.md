@@ -3,6 +3,7 @@ nails'n wood
 Description
 ---------
 A pachinko inspired game in webGL.
+You can play it [here](http://naw1-yazgoo.rhcloud.com/).
 Screenshots
 -----------
 [![Menu screenshot](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_menu_small.png)](http://cloud.github.com/downloads/yazgoo/nails_n_wood/nails_n_wood_capture_menu.png)
