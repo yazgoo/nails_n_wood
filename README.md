@@ -27,7 +27,7 @@ Here are current conventions:
 - use width 100 x height 200 pixel
 - a black pixel's a nail
 
-To draw the targets, on the next line put the pixels colors:
+To draw the targets, on the last line, put the pixels colors:
 
 - ok sign: green
 - not ok sign: red
