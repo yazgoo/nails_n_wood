@@ -77,7 +77,8 @@ function HttpImageStorageMaps()
     {
         $.getJSON(list_path,
                 function(list, textStatus, jqXHR) {
-                    callback(list); }).error(function() { alert("error"); });
+                    callback(list); }).error(function() {
+            console.log("error opening " + list_path); });
     }
     this.list = function(callback)
     {
@@ -109,10 +110,30 @@ function HttpImageStorageMaps()
         console.log("not implemented");
     }
 }
+function ProceduralStorageMaps()
+{
+    this.load = function(yield, callback)
+    {
+        var map = { nails: []};
+        var editor = { draw_line: function draw_line(x0, y0, x1, y1)
+            {
+                var dy = (y1 - y0);
+                var dx = (x1 - x0);
+                var n = Math.sqrt(dx * dx + dy * dy);
+                for(var i = 0; i < n; i++)
+                    map.nails.push(x0 + i * dx, y0 + i * dy,
+                            x0 + (i + 1) * dx, y0 + (i + 1) * dy);
+            } };
+        yield(editor);
+        callback(map);
+    }
+}
 function MapsFactory(type)
 {
     if(type == "localStorage")
         return new LocalStorageMaps();
     else if(type == "http")
         return new HttpImageStorageMaps();
+    else if(type == "procedural")
+        return new ProceduralStorageMaps();
 }

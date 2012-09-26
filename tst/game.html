@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="../style/main.css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/physi.js"></script>
+<script type="text/javascript" src="js/canvas_to_map.js">
+</script>
+<script type="text/javascript" src="js/game.js"></script>
+<div id="container"></div>
+<script>
+    var game = new Game();
+    game.setup_interface('physijs_worker.js', 'js/ammo.js');
+    game.main();
+    var maps = MapsFactory("procedural");
+    maps.load(function(map)
+    {
+        map.draw_line(0, 0, 100, 200);
+    }, game.load_and_setup_map);
+</script>

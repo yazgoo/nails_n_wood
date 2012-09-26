@@ -13,7 +13,7 @@ function Game()
     {
         var wood_material = new THREE.MeshLambertMaterial( { 
             map: THREE.ImageUtils.loadTexture(
-                     'img/fst_787q223ujd_4.jpg') });
+                     'img/wood_0.jpg') });
         var ok_material = new THREE.MeshLambertMaterial( { 
             map: THREE.ImageUtils.loadTexture(
                      'img/ok.png') });
@@ -159,9 +159,11 @@ function Game()
     var camera;
     var renderer;
     var controls;
-    this.setup_interface = function() {
-        Physijs.scripts.worker = 'js/physijs_worker.js';
-        Physijs.scripts.ammo = 'ammo.js';
+    this.setup_interface = function(worker_path, ammo_path) {
+        Physijs.scripts.worker = (worker_path == undefined ?
+                'js/physijs_worker.js' : worker_path);
+        Physijs.scripts.ammo = (ammo_path == undefined ?
+                'ammo.js' : ammo_path);
         scene = new Physijs.Scene();
         var $container = $('#container');
         renderer = new THREE.WebGLRenderer( { antialias: true } );

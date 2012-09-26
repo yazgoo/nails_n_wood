@@ -96,13 +96,13 @@ var setup_controls = function() {
             );
 }
 var game;
-    function GameInstance()
+function GameInstance()
 {
-game = new Game();
-game.setup_interface();
-setup_controls();
-load_map();
-game.main();
+    game = new Game();
+    game.setup_interface();
+    setup_controls();
+    load_map();
+    game.main();
 }
 if(typeof("Physijs") != "function")
 {
