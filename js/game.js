@@ -4,10 +4,16 @@ function Game()
     var marble_droped;
     var done;
     this.cases;
+    this.end_game_callback;
     var objects;
+    var game = this;
     this.translate_marble = function(i)
     {
         if(!marble_droped) marble.position.x += i;
+    }
+    this.marble_position_set = function(x)
+    {
+        if(!marble_droped) marble.position.x = x;
     }
     var create_wood = function(scene, cases)
     {
@@ -191,7 +197,7 @@ function Game()
         pointLight.position.z = 130;
         scene.add(pointLight);
     };
-    var render = function()
+    render = function()
     {
         if(marble == undefined) return;
         marble.position.z = 10;
@@ -212,13 +218,15 @@ function Game()
         if(!done) scene.simulate();
         renderer.render(scene, camera);
     }
-    var end_game = function(x)
+    function end_game(x)
     {
         var x = (x + 50) / 100.0;
         for(i in this.cases)
         {
             if(i == (cases.length - 1) || x < cases[i].position)
             {
+                if(game.end_game_callback != undefined)
+                    game.end_game_callback(x, cases[i]);
                 var message =
                     $("#message").css("visibility", "visible");
                 if(cases[i].ok)
