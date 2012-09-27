@@ -223,14 +223,15 @@ function Game()
         var x = (x + 50) / 100.0;
         for(i in this.cases)
         {
+            var _case = this.cases[i];
             if(i == (this.cases.length - 1) ||
-                    x < this.cases[i].position)
+                    x < _case.position)
             {
                 if(game.end_game_callback != undefined)
-                    game.end_game_callback(x, this.cases[i]);
+                    game.end_game_callback(x, _case);
                 var message =
                     $("#message").css("visibility", "visible");
-                if(this.cases[i].ok)
+                if(_case.ok)
                     message.html("<br/><br/>You won!<br/>"
                             + "<input type='button' value='next'"
                             + " onclick='next()'/>");

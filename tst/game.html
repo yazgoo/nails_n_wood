@@ -17,7 +17,7 @@
     }
     var m1 = function(map)
     {
-        map.draw_line(10, 10, 70, 20);
+        map.draw_line(10, 10, 70, 30);
         map.add_case({ok: 1, sign_position: 0.25, position: 0.5});
         map.add_case({ok: 0, sign_position: 0.75});
     }
@@ -28,8 +28,8 @@
         end: function(tester) { check(!tester._case.ok); }
     },
     {
-        map: m0,
-        x: -40,
+        map: m1,
+        x: -40.2,
         end: function(tester) { check(!tester._case.ok); }
     },
     {

@@ -6,7 +6,6 @@ function run_test_games(tests)
     var tester = this;
     this.run_test_game = function()
     {
-        console.log(this.test.map);
         this.game.clean();
         this.maps.load(this.test.map,
                 this.game.load_and_setup_map);
