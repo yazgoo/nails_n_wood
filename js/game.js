@@ -223,13 +223,14 @@ function Game()
         var x = (x + 50) / 100.0;
         for(i in this.cases)
         {
-            if(i == (cases.length - 1) || x < cases[i].position)
+            if(i == (this.cases.length - 1) ||
+                    x < this.cases[i].position)
             {
                 if(game.end_game_callback != undefined)
-                    game.end_game_callback(x, cases[i]);
+                    game.end_game_callback(x, this.cases[i]);
                 var message =
                     $("#message").css("visibility", "visible");
-                if(cases[i].ok)
+                if(this.cases[i].ok)
                     message.html("<br/><br/>You won!<br/>"
                             + "<input type='button' value='next'"
                             + " onclick='next()'/>");
@@ -250,10 +251,14 @@ function Game()
         marble_setup(scene);
         setup_controls();
     }
+    this.clean = function()
+    {
+        for(i in objects) scene.remove(objects[i]);
+    }
     this.next = function()
     {
         var message = $("#message").css("visibility", "hidden");
-        for(i in objects) scene.remove(objects[i]);
+        this.clean();
         var maps = MapsFactory("http");
         load_and_setup_map(scene, "1");
     }

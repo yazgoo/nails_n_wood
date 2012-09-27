@@ -117,6 +117,7 @@ function ProceduralStorageMaps()
         var map = { nails: [], cases: []};
         var editor = { draw_line: function draw_line(x0, y0, x1, y1)
             {
+                console.log("drawing line " + x0);
                 var dy = (y1 - y0);
                 var dx = (x1 - x0);
                 var n = Math.sqrt(dx * dx + dy * dy);
@@ -127,6 +128,7 @@ function ProceduralStorageMaps()
             }, add_case: function(_case)
             {
                 map.cases.push(_case);
+                console.log(map);
             } };
         yield(editor);
         callback(map);
