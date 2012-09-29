@@ -5,17 +5,10 @@
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
+<script type="text/javascript" src="js/getUrlVars.js"></script>
 <div id="container"></div>
 <div id="controls"></div>
 <script type="text/javascript">
-    function getUrlVars() {
-        var vars = {};
-        var parts = window.location.href.replace(
-                /[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-                });
-        return vars;
-    }
 var image_to_map = function(image)
 {
     var canvas = $('<canvas/>').css( {

@@ -84,8 +84,6 @@ function Game()
         scene.add(wood_bottom);
     }
     var marble_setup = function(scene) {
-        done = false;
-        marble_droped = false;
         if(marble != undefined) scene.remove(marble);
         marble = new THREE.Mesh(
                 new THREE.SphereGeometry(2, 20, 20),
@@ -95,6 +93,8 @@ function Game()
         marble.position.z = +10;
         marble.position.x = Math.random() * 100 - 50;
         scene.add(marble);
+        done = false;
+        marble_droped = false;
     }
     this.marble_drop = function()
     {
@@ -114,7 +114,7 @@ function Game()
                 last_object_collided = object;
             }
         });
-        marble.rotation.z = 3.14/4;
+        marble.rotation.y = 3.14/4;
         marble.position.y = 100;
         marble.position.z = +10;
         marble.position.x = old_x;
@@ -143,6 +143,7 @@ function Game()
         for(var i in map) {
             var nail = new Physijs.BoxMesh(nail_geometry, nail_material, 0);
             nail.rotation.x = -3.14/2;
+            nail.rotation.y = -3.14/4;
             nail.position.x = map[i][0] * 100 - 50;
             nail.position.y = 100 - map[i][1] * 200;
             nail.position.z = 10;
@@ -201,26 +202,30 @@ function Game()
     {
         if(marble == undefined) return;
         marble.position.z = 10;
-        if(marble.position.y < -96)
+        //marble.rotation.z += 0.001;
+        if(!done)
         {
-            marble.position.y = -96;
-            done = true;
-            end_game(marble.position.x);
+            scene.simulate();
+            if(marble.position.y < -96)
+            {
+                marble.position.y = -96;
+                done = true;
+                end_game(marble.position);
+            }
+            if(marble.position.x > 48)
+            {
+                marble.position.x = 47;
+            }
+            if(marble.position.x < -48)
+            {
+                marble.position.x = -47; 
+            }
         }
-        if(marble.position.x > 48)
-        {
-            marble.position.x = 47;
-        }
-        if(marble.position.x < -48)
-        {
-            marble.position.x = -47; 
-        }
-        if(!done) scene.simulate();
         renderer.render(scene, camera);
     }
-    function end_game(x)
+    function end_game(position)
     {
-        var x = (x + 50) / 100.0;
+        var x = (position.x + 50) / 100.0;
         for(i in this.cases)
         {
             var _case = this.cases[i];
@@ -228,7 +233,7 @@ function Game()
                     x < _case.position)
             {
                 if(game.end_game_callback != undefined)
-                    game.end_game_callback(x, _case);
+                    game.end_game_callback(position, _case);
                 var message =
                     $("#message").css("visibility", "visible");
                 if(_case.ok)
@@ -262,5 +267,9 @@ function Game()
         this.clean();
         var maps = MapsFactory("http");
         load_and_setup_map(scene, "1");
+    }
+    this.getMarble = function()
+    {
+        return marble;
     }
 }
