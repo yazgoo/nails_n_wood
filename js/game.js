@@ -22,10 +22,12 @@ function Game()
                      'img/wood_0.jpg') });
         var ok_material = new THREE.MeshLambertMaterial( { 
             map: THREE.ImageUtils.loadTexture(
-                     'img/ok.png') });
+                     'img/ok.png'),
+                alphaTest: 0.5});
         var nok_material = new THREE.MeshLambertMaterial( { 
             map: THREE.ImageUtils.loadTexture(
-                     'img/nok.png') });
+                     'img/nok.png'),
+                alphaTest: 0.5 });
         var wood_back = new Physijs.BoxMesh(
                 new THREE.CubeGeometry(100, 200, 10),
                 wood_material, 0);
@@ -44,6 +46,18 @@ function Game()
                 wood_material, 0);
         wood_bottom.position.y = -102.5;
         wood_bottom.position.z = 5;
+        //wood_back.receiveShadow = true;
+        objects.push(wood_back);
+        scene.add(wood_back);
+        //wood_left.receiveShadow = true;
+        objects.push(wood_left);
+        scene.add(wood_left);
+        //wood_right.receiveShadow = true;
+        objects.push(wood_right);
+        scene.add(wood_right);
+        //wood_bottom.receiveShadow = true;
+        objects.push(wood_bottom);
+        scene.add(wood_bottom);
         for(var i in cases) {
             var case_ = new Physijs.BoxMesh(
                     new THREE.CubeGeometry(5, 25, 25),
@@ -70,18 +84,6 @@ function Game()
             objects.push(case_);
             scene.add(case_);
         }
-        //wood_back.receiveShadow = true;
-        objects.push(wood_back);
-        scene.add(wood_back);
-        //wood_left.receiveShadow = true;
-        objects.push(wood_left);
-        scene.add(wood_left);
-        //wood_right.receiveShadow = true;
-        objects.push(wood_right);
-        scene.add(wood_right);
-        //wood_bottom.receiveShadow = true;
-        objects.push(wood_bottom);
-        scene.add(wood_bottom);
     }
     var marble_setup = function(scene) {
         if(marble != undefined) scene.remove(marble);
@@ -201,7 +203,7 @@ function Game()
     render = function()
     {
         if(marble == undefined) return;
-        //marble.position.z = 10;
+        marble.position.z = 10;
         //marble.rotation.z += 0.001;
         if(!done)
         {
