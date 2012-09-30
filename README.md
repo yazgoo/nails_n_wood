@@ -49,7 +49,6 @@ A scenario uses procedural maps which are declared in:
     tst/tests_maps.js
 
 Procedural maps are functions which draw maps.
-
 Here is such a map:
 
     var my_map = function(map)
@@ -97,3 +96,5 @@ be hit.
             check(x > 0 && x < 2, x);
         }
     },
+
+The results off the tests will be logged to js console.
