@@ -201,7 +201,7 @@ function Game()
     render = function()
     {
         if(marble == undefined) return;
-        marble.position.z = 10;
+        //marble.position.z = 10;
         //marble.rotation.z += 0.001;
         if(!done)
         {
