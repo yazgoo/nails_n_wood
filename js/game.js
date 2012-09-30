@@ -103,7 +103,7 @@ function Game()
         var old_x = marble.position.x;
         scene.remove(marble);
         marble = new Physijs.BoxMesh(
-                new THREE.SphereGeometry(2, 20, 20),
+                new THREE.SphereGeometry(1.6, 20, 20),
                 new THREE.MeshLambertMaterial( { color: 0x0000AA }
                     ));
         marble.castShadow = true;
