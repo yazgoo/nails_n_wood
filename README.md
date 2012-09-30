@@ -32,8 +32,10 @@ To draw the targets, on the last line, put the pixels colors:
 - ok sign: green
 - not ok sign: red
 - limit between two targets: blue
+
 Automated tests
 ---------------
+
 It is possible to replay pre-defined game scenarii.
 You can play selected tests (here #3 and #7) via:
     tst/game.html?tests_names=3,7
