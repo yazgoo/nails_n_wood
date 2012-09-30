@@ -69,6 +69,7 @@ A scenario is declared in:
     tst/tests.js
 
 Just add to tests\_items variable a scenario, for example:
+
     {
         // name of the map to use
         map: my_map,
