@@ -95,6 +95,8 @@ function GameInstance()
     game.setup_interface();
     setup_controls();
     load_map();
+    if(container != undefined && container.parameters != undefined)
+        game.audio_effects = container.parameters.audio_effects;
     game.main();
 }
 if(typeof("Physijs") != "function")

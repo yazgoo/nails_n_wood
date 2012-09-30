@@ -20,6 +20,7 @@ type="text/css" href="style/container.css" />
         container.render();
         setTimeout(function()
         {
+            var audio_effects = true;
             container.clear();
             a = {"Official Maps": "http",
                 "Your Maps": "localStorage"};
@@ -42,7 +43,8 @@ type="text/css" href="style/container.css" />
                                 container.include('game.html',
                                 {
                                     storage: storage_type,
-                                    name: value
+                                    name: value,
+                                    audio_effects: audio_effects
                                 });
                             });
                             container.render();
@@ -52,7 +54,15 @@ type="text/css" href="style/container.css" />
             container.addSection("Tools", function(section) {
                 section.addButton("Settings",
                 function(value) {
-                    alert("not implemented yet");
+                    container.pushState().clear();
+                    container.addSection("Sound", function(section){
+                        section.addToggle(audio_effects,
+                        "Effects on", "Effects off",
+                        function(state) {
+                            audio_effects = state;
+                        });
+                    });
+                    container.render();
                 });
             })
             container.addLink(

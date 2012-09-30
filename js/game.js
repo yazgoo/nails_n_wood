@@ -5,6 +5,7 @@ function Game()
     var done;
     this.cases;
     this.end_game_callback;
+    this.audio_effects = true;
     var objects;
     var game = this;
     this.translate_marble = function(i)
@@ -88,7 +89,7 @@ function Game()
     var marble_setup = function(scene) {
         if(marble != undefined) scene.remove(marble);
         marble = new THREE.Mesh(
-                new THREE.SphereGeometry(2, 20, 20),
+                new THREE.SphereGeometry(1.6, 20, 20),
                 new THREE.MeshLambertMaterial( { color: 0x0000AA }
                     ));
         marble.position.y = 100;
@@ -104,15 +105,15 @@ function Game()
         marble_droped = true;
         var old_x = marble.position.x;
         scene.remove(marble);
-        marble = new Physijs.BoxMesh(
-                new THREE.SphereGeometry(1.6, 20, 20),
-                new THREE.MeshLambertMaterial( { color: 0x0000AA }
-                    ));
+        marble = new Physijs.BoxMesh( marble.geometry, marble.material);
         marble.castShadow = true;
         var last_object_collided = null;
+        var audio_effects = this.audio_effects;
         marble.addEventListener('collision', function(object) {
             if(object != last_object_collided) {
-                new Audio("sound/collision.ogg").play();
+                if(audio_effects) {
+                    new Audio("sound/collision.ogg").play();
+                }
                 last_object_collided = object;
             }
         });

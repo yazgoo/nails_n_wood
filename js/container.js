@@ -42,14 +42,19 @@ function Container(name, callback)
                 }, "text");
         return this;
     }
+    this.html_contents = [];
     this.pushState = function()
     {
-        window.history.pushState(this.html(), "Title");
+        var html = this.html();
+        window.history.pushState("", "Title");
+        this.html_contents.push(html);
         var container = this;
+        var html_contents = this.html_contents;
         window.addEventListener('popstate', function(event) {
-            if(event.state == null) return;
+            if(html_contents.length == 0) return;
             container.clear();
-            container.setHtml(event.state);
+            // event.state
+            container.setHtml(html_contents.pop());
         });
         return this;
     }
@@ -83,9 +88,33 @@ function Container(name, callback)
                     'value="' + name + '" id="map"/>';
             }
         }
+        function Toggle(default_state,
+                        on_value, off_value, callback)
+        {
+            ContainerCallbacks.push(callback);
+            this.callback_id = ContainerCallbacks.length - 1;
+            this.html = function()
+            {
+                var values = [on_value, off_value];
+                if(default_state == 0) values.reverse();
+                return '<input type="button" ' +
+                    'onclick="this.value=(this.value==\''
+                    + values[1] + '\'?\'' + values[0] + '\':\''
+                    + values[1] + '\');ContainerCallbacks['
+                    + this.callback_id  + '](this.value == \''
+                            +on_value+'\');" ' +
+                    'value="' + values[0] + '" id="map"/>';
+            }
+        }
         this.addButton = function(name, callback)
         {
             buttons.push(new Button(name, callback));
+        }
+        this.addToggle = function(default_state,
+                on_value, off_value, callback)
+        {
+            buttons.push(new Toggle(default_state,
+                        on_value, off_value, callback));
         }
         this.html = function()
         {
