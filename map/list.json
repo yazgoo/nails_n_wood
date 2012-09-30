@@ -1,11 +1,12 @@
 {
-    "0": {"path" : "0.png"},
-    "1": {"path" : "1.png"},
-    "2": {"path" : "2.png"},
-    "3": {"path" : "3.png"},
-    "4": {"path" : "4.png"},
+    "Simple": {"path" : "0.png"},
+    "ShenOne": {"path" : "s1.png"},
+    "Kikoo": {"path" : "2.png"},
+    "ShenTwo": {"path" : "s2.png"},
+    "Ellipse": {"path" : "4.png"},
+    "ShenThree": {"path" : "s3.png"},
+    "Curly": {"path" : "6.png"},
     "5": {"path" : "5.png"},
-    "6": {"path" : "6.png"},
-    "s1": {"path" : "s1.png"},
-    "s2": {"path" : "s2.png"}
+    "3": {"path" : "3.png"},
+    "1": {"path" : "1.png"}
 }
