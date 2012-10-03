@@ -101,7 +101,7 @@ function Game()
     }
     this.simulate = function()
     {
-        scene.simulate(undefined, 3);
+        scene.simulate(undefined, 2);
     }
     this.marble_drop = function()
     {
