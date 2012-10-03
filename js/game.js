@@ -99,6 +99,10 @@ function Game()
         done = false;
         marble_droped = false;
     }
+    this.simulate = function()
+    {
+        scene.simulate(undefined, 3);
+    }
     this.marble_drop = function()
     {
         if(marble_droped) return;
@@ -121,6 +125,13 @@ function Game()
         marble.position.y = 100;
         marble.position.z = +10;
         marble.position.x = old_x;
+        // we enable CCD as per
+        // http://bulletphysics.org/mediawiki-1.5.8/index.php/Anti_tunneling_by_Motion_Clamping
+        /*marble.setCcdMotionThreshold(0.1);
+        marble.setCcdSweptSphereRadius(0.5);*/
+        scene.removeEventListener( 'update',  this.simulate);
+        scene.addEventListener( 'update',  this.simulate);
+        scene.simulate();
         scene.add(marble);
     }
     this.load_and_setup_map = function(map) {
@@ -208,7 +219,7 @@ function Game()
         //marble.rotation.z += 0.001;
         if(!done)
         {
-            scene.simulate();
+            
             if(marble.position.y < -96)
             {
                 marble.position.y = -96;
