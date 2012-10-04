@@ -2,6 +2,7 @@ function Game()
 {
     var marble;
     var marble_droped;
+    var ThreePhysics = Collide;
     var done;
     this.cases;
     this.end_game_callback;
@@ -29,20 +30,20 @@ function Game()
             map: THREE.ImageUtils.loadTexture(
                      'img/nok.png'),
                 alphaTest: 0.5 });
-        var wood_back = new Physijs.BoxMesh(
+        var wood_back = new ThreePhysics.BoxMesh(
                 new THREE.CubeGeometry(100, 200, 10),
                 wood_material, 0);
-        var wood_left = new Physijs.BoxMesh(
+        var wood_left = new ThreePhysics.BoxMesh(
                 new THREE.CubeGeometry(5, 200, 25),
                 wood_material, 0);
         wood_left.position.x = -52.5;
         wood_left.position.z = 5;
-        var wood_right = new Physijs.BoxMesh(
+        var wood_right = new ThreePhysics.BoxMesh(
                 new THREE.CubeGeometry(5, 200, 25),
                 wood_material, 0);
         wood_right.position.x = 52.5;
         wood_right.position.z = 5;
-        var wood_bottom = new Physijs.BoxMesh(
+        var wood_bottom = new ThreePhysics.BoxMesh(
                 new THREE.CubeGeometry(110, 5, 25),
                 wood_material, 0);
         wood_bottom.position.y = -102.5;
@@ -60,7 +61,7 @@ function Game()
         objects.push(wood_bottom);
         scene.add(wood_bottom);
         for(var i in cases) {
-            var case_ = new Physijs.BoxMesh(
+            var case_ = new ThreePhysics.BoxMesh(
                     new THREE.CubeGeometry(5, 25, 25),
                     wood_material,
                     0);
@@ -109,7 +110,7 @@ function Game()
         marble_droped = true;
         var old_x = marble.position.x;
         scene.remove(marble);
-        marble = new Physijs.BoxMesh( marble.geometry, marble.material);
+        marble = new ThreePhysics.BoxMesh( marble.geometry, marble.material);
         marble.castShadow = true;
         var last_object_collided = null;
         var audio_effects = this.audio_effects;
@@ -155,7 +156,7 @@ function Game()
         var nail_geometry = new THREE.CylinderGeometry(0.2, 0.7, 20);
         var nails = [];
         for(var i in map) {
-            var nail = new Physijs.BoxMesh(nail_geometry, nail_material, 0);
+            var nail = new ThreePhysics.BoxMesh(nail_geometry, nail_material, 0);
             nail.rotation.x = -3.14/2;
             nail.rotation.y = -3.14/4;
             nail.position.x = map[i][0] * 100 - 50;
@@ -181,11 +182,11 @@ function Game()
     var renderer;
     var controls;
     this.setup_interface = function(worker_path, ammo_path) {
-        Physijs.scripts.worker = (worker_path == undefined ?
+        ThreePhysics.scripts.worker = (worker_path == undefined ?
                 'js/physijs_worker.js' : worker_path);
-        Physijs.scripts.ammo = (ammo_path == undefined ?
+        ThreePhysics.scripts.ammo = (ammo_path == undefined ?
                 'ammo.js' : ammo_path);
-        scene = new Physijs.Scene();
+        scene = new ThreePhysics.Scene();
         var $container = $('#container');
         renderer = new THREE.WebGLRenderer( { antialias: true } );
         renderer.shadowMapEnabled = true;

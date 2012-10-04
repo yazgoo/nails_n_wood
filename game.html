@@ -99,11 +99,16 @@ function GameInstance()
         game.audio_effects = container.parameters.audio_effects;
     game.main();
 }
-if(typeof("Physijs") != "function")
+if(typeof("Collide") != "function")
+{
+    $.getScript("js/collide.js", function() {
+            GameInstance(); });
+}
+/*if(typeof("Physijs") != "function")
 {
     $.getScript("js/physi.js", function() {
             GameInstance(); });
-}
+}*/
 else
 {
     GameInstance();
