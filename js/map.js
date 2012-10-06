@@ -43,7 +43,10 @@ function LocalStorageMaps()
     }
     this.load = function(name, callback)
     {
-        callback(JSON.parse(localStorage[prefix + name]));
+        var str = localStorage[prefix + name];
+        if(str == undefined)
+            alert("map " + name + " does not exist");
+        callback(JSON.parse(str));
     }
     this.save = function(name, value, callback)
     {

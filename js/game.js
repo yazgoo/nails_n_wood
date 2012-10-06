@@ -92,7 +92,7 @@ function Game()
         marble = new THREE.Mesh(
                 new THREE.SphereGeometry(1.6, 20, 20),
                 new THREE.MeshLambertMaterial( { color: 0x0000AA }
-                    ));
+                    ), 0.1);
         marble.position.y = 100;
         marble.position.z = +10;
         marble.position.x = Math.random() * 100 - 50;
@@ -110,7 +110,8 @@ function Game()
         marble_droped = true;
         var old_x = marble.position.x;
         scene.remove(marble);
-        marble = new ThreePhysics.BoxMesh( marble.geometry, marble.material);
+        marble = new ThreePhysics.SphereMesh(
+                marble.geometry, marble.material);
         marble.castShadow = true;
         var last_object_collided = null;
         var audio_effects = this.audio_effects;
@@ -156,7 +157,8 @@ function Game()
         var nail_geometry = new THREE.CylinderGeometry(0.2, 0.7, 20);
         var nails = [];
         for(var i in map) {
-            var nail = new ThreePhysics.BoxMesh(nail_geometry, nail_material, 0);
+            var nail = new ThreePhysics.SphereMesh(
+                    nail_geometry, nail_material, 0);
             nail.rotation.x = -3.14/2;
             nail.rotation.y = -3.14/4;
             nail.position.x = map[i][0] * 100 - 50;
@@ -225,6 +227,8 @@ function Game()
             {
                 marble.position.y = -96;
                 done = true;
+                console.log("end_game");
+                scene.removeEventListener('update',  game.simulate);
                 end_game(marble.position);
             }
             if(marble.position.x > 48)
