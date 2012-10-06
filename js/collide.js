@@ -87,6 +87,10 @@ window.Collide = (function() {
             v.y *= s;
             return v;
         }
+        function d(a, b)
+        {
+            return Math.sqrt(Math.pow(b - a, 2));
+        }
         if(geometry instanceof THREE.CubeGeometry) {
             var hw = (geometry.boundingBox.max.x
                 - geometry.boundingBox.min.x) / 2;
@@ -98,12 +102,20 @@ window.Collide = (function() {
                 var left = (this.position.x - hw - radius / 2);
                 var top = (this.position.y + hh + radius / 2);
                 var bottom = (this.position.y - hh - radius / 2);
-                return (x < right && x > left
+                if (x < right && x > left
                         && y < top && y > bottom)
+                {
+                    var d1 = Math.min(d(x, right), d(x, left));
+                    var d2 = Math.min(d(y, top), d(y, bottom));
+                    if(d1 < d2) self.dir = [-1, 1];
+                    else self.dir = [1, -1];
+                    return true;
+                }
+                else return false;
             }
             self.reflect_speed = function(vx, vy)
             {
-                return {x: -vx, y: -vy};
+                return {x: self.dir[0] * vx, y: self.dir[1] * vy};
             }
         }
         else if(geometry instanceof THREE.CylinderGeometry)
@@ -174,7 +186,7 @@ window.Collide = (function() {
                 self.dispatchEvent('update') }, 100);
             Collide.simulating = true;
             Collide.start_time = simulate_time;
-            // TODO choos delta_position based on the minimum
+            // TODO choose delta_position based on the minimum
             // size of the objects on the scene
             Collide.delta_position = 0.1;
             Collide.v = {x: 0, y: 0};
