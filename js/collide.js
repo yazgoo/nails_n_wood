@@ -58,10 +58,52 @@ window.Collide = (function() {
         if(mass != 0) Collide.main = this;
         else Collide.meshes.push(this);
         var self = this;
+        function norm(v)
+        {
+            return Math.sqrt(Math.pow(v.x, 2)
+                    + Math.pow(v.y, 2));
+        }
+        function dot(a, b)
+        {
+            return a.x * b.x + a.y * b.y;
+        }
+        function normalize(v)
+        {
+            var n = norm(v);
+            v.x = v.x / n;
+            v.y = v.y / n;
+            return v;
+        }
+        function rotate(v, theta)
+        {
+            return {x: v.x * Math.cos(theta)
+                - v.y * Math.sin(theta),
+                    y: v.x * Math.sin(theta)
+                        + v.y * Math.cos(theta)}
+        }
+        function scale(v, s)
+        {
+            v.x *= s;
+            v.y *= s;
+            return v;
+        }
         if(geometry instanceof THREE.CubeGeometry) {
+            var hw = (geometry.boundingBox.max.x
+                - geometry.boundingBox.min.x) / 2;
+            var hh = (geometry.boundingBox.max.y
+                - geometry.boundingBox.min.y) / 2;
             self.intersectsCircle = function(x, y, radius)
             {
-                return false;
+                var right = this.position.x + hw + radius / 2;
+                var left = (this.position.x - hw - radius / 2);
+                var top = (this.position.y + hh + radius / 2);
+                var bottom = (this.position.y - hh - radius / 2);
+                return (x < right && x > left
+                        && y < top && y > bottom)
+            }
+            self.reflect_speed = function(vx, vy)
+            {
+                return {x: -vx, y: -vy};
             }
         }
         else if(geometry instanceof THREE.CylinderGeometry)
@@ -74,35 +116,6 @@ window.Collide = (function() {
                         Math.pow(this.position.x - x, 2)
                             + Math.pow(this.position.y - y, 2));
                 return (distance < (radius + width));
-            }
-            function norm(v)
-            {
-                return Math.sqrt(Math.pow(v.x, 2)
-                        + Math.pow(v.y, 2));
-            }
-            function dot(a, b)
-            {
-                return a.x * b.x + a.y * b.y;
-            }
-            function normalize(v)
-            {
-                var n = norm(v);
-                v.x = v.x / n;
-                v.y = v.y / n;
-                return v;
-            }
-            function rotate(v, theta)
-            {
-                return {x: v.x * Math.cos(theta)
-                    - v.y * Math.sin(theta),
-                    y: v.x * Math.sin(theta)
-                        + v.y * Math.cos(theta)}
-            }
-            function scale(v, s)
-            {
-                v.x *= s;
-                v.y *= s;
-                return v;
             }
             self.reflect_speed = function(vx, vy)
             {

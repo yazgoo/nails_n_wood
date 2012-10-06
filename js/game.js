@@ -30,9 +30,9 @@ function Game()
             map: THREE.ImageUtils.loadTexture(
                      'img/nok.png'),
                 alphaTest: 0.5 });
-        var wood_back = new ThreePhysics.BoxMesh(
+        var wood_back = new THREE.Mesh(
                 new THREE.CubeGeometry(100, 200, 10),
-                wood_material, 0);
+                wood_material);
         var wood_left = new ThreePhysics.BoxMesh(
                 new THREE.CubeGeometry(5, 200, 25),
                 wood_material, 0);
