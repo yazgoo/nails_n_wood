@@ -115,7 +115,8 @@ window.Collide = (function() {
             }
             self.reflect_speed = function(vx, vy)
             {
-                return {x: self.dir[0] * vx, y: self.dir[1] * vy};
+                return scale({x: self.dir[0] * vx,
+                    y: self.dir[1] * vy}, Collide.rebound_factor);
             }
         }
         else if(geometry instanceof THREE.CylinderGeometry)
@@ -141,7 +142,8 @@ window.Collide = (function() {
                 // vectors
                 var theta = Math.acos(dot(mirror, n_v));
                 // finaly, we rotate v by 2 * theta
-                return scale(rotate({x: -vx, y: -vy}, theta), 0.75);
+                return scale(rotate({x: -vx, y: -vy}, theta), 
+                        Collide.rebound_factor);
             }
         }
         this.containsMain = function(x, y)
@@ -189,6 +191,7 @@ window.Collide = (function() {
             // TODO choose delta_position based on the minimum
             // size of the objects on the scene
             Collide.delta_position = 0.1;
+            Collide.rebound_factor = 0.4;
             Collide.v = {x: 0, y: 0};
             Collide.position = {x: Collide.main.position.x,
                 y: Collide.main.position.y};
@@ -215,6 +218,10 @@ window.Collide = (function() {
                         Collide.v.x, g * t + Collide.v.y);
                 Collide.position = {x: Collide.main.position.x, 
                     y: Collide.main.position.y }
+                collided_mesh.dispatchEvent('collision',
+                        Collide.main, null, null);
+                Collide.main.dispatchEvent('collision',
+                        collided_mesh, null, null);
                 break;
             }
             else

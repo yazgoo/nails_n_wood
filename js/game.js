@@ -223,21 +223,21 @@ function Game()
         if(!done)
         {
             
-            if(marble.position.y < -96)
+            if(marble.position.y < -101)
             {
-                marble.position.y = -96;
+                marble.position.y = -100;
                 done = true;
                 console.log("end_game");
                 scene.removeEventListener('update',  game.simulate);
                 end_game(marble.position);
             }
-            if(marble.position.x > 48)
+            if(marble.position.x > 51)
             {
-                marble.position.x = 47;
+                marble.position.x = 50;
             }
-            if(marble.position.x < -48)
+            if(marble.position.x < -51)
             {
-                marble.position.x = -47; 
+                marble.position.x = -50; 
             }
         }
         renderer.render(scene, camera);
