@@ -55,7 +55,18 @@ window.Collide = (function() {
         if ( !geometry.boundingBox ) {
             geometry.computeBoundingBox();
         }
-        if(mass != 0) Collide.main = this;
+        function set_min_delta_position(d)
+        {
+            Collide.delta_position
+                = Math.min(Collide.delta_position, d/5);
+        }
+        if(mass != 0)
+        {
+            Collide.simulating = false;
+            Collide.main = this;
+            set_min_delta_position(
+                    Collide.main.geometry.boundingSphere.radius);
+        }
         else Collide.meshes.push(this);
         var self = this;
         function norm(v)
@@ -94,8 +105,10 @@ window.Collide = (function() {
         if(geometry instanceof THREE.CubeGeometry) {
             var hw = (geometry.boundingBox.max.x
                 - geometry.boundingBox.min.x) / 2;
+            set_min_delta_position(hw);
             var hh = (geometry.boundingBox.max.y
                 - geometry.boundingBox.min.y) / 2;
+            set_min_delta_position(hh);
             self.intersectsCircle = function(x, y, radius)
             {
                 var right = this.position.x + hw + radius / 2;
@@ -115,6 +128,7 @@ window.Collide = (function() {
             }
             self.reflect_speed = function(vx, vy)
             {
+                console.log("reflect cube");
                 return scale({x: self.dir[0] * vx,
                     y: self.dir[1] * vy}, Collide.rebound_factor);
             }
@@ -123,6 +137,7 @@ window.Collide = (function() {
         {
             var width = (geometry.boundingBox.max.x -
                 geometry.boundingBox.min.x) / 2;
+            set_min_delta_position(width);
             self.intersectsCircle = function(x, y, radius)
             {
                 var distance = Math.sqrt(
@@ -132,18 +147,24 @@ window.Collide = (function() {
             }
             self.reflect_speed = function(vx, vy)
             {
+                console.log("reflect cylinder");
                 // first we calculate the vector direction between 
                 // the cylinder and the sphere
                 var pos = Collide.main.position;
                 var mirror = normalize({x: pos.x - this.position.x,
                         y: pos.y - this.position.y});
                 var n_v = normalize({x: -vx, y: -vy});
+                var n = norm({x: -vx, y: -vy});
+                // we force the speed to a minimum
+                if(n < 5) n = 6;
                 // then we calculate the angle between the two
                 // vectors
-                var theta = Math.acos(dot(mirror, n_v));
+                //var theta = Math.acos(dot(mirror, n_v));
+                var theta = Math.atan2(mirror.y, mirror.x)
+                    - Math.atan2(n_v.y, n_v.x)
                 // finaly, we rotate v by 2 * theta
-                return scale(rotate({x: -vx, y: -vy}, theta), 
-                        Collide.rebound_factor);
+                return scale(rotate(n_v, theta), 
+                        Collide.rebound_factor * n);
             }
         }
         this.containsMain = function(x, y)
@@ -188,9 +209,6 @@ window.Collide = (function() {
                 self.dispatchEvent('update') }, 100);
             Collide.simulating = true;
             Collide.start_time = simulate_time;
-            // TODO choose delta_position based on the minimum
-            // size of the objects on the scene
-            Collide.delta_position = 0.1;
             Collide.rebound_factor = 0.4;
             Collide.v = {x: 0, y: 0};
             Collide.position = {x: Collide.main.position.x,
