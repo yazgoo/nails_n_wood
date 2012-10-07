@@ -223,9 +223,9 @@ function Game(physics)
         if(!done)
         {
             
-            if(marble.position.y < -101)
+            if(marble.position.y < -97)
             {
-                marble.position.y = -100;
+                marble.position.y = -96;
                 done = true;
                 console.log("end_game");
                 scene.removeEventListener('update',  game.simulate);
