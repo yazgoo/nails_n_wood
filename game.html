@@ -6,8 +6,6 @@
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 <script type="text/javascript" src="js/getUrlVars.js"></script>
-<!-- tmp include -->
-<script type="text/javascript" src="js/collide.js"></script>
 <div id="container"></div>
 <div id="controls"></div>
 <script type="text/javascript">
@@ -91,28 +89,29 @@ var setup_controls = function() {
             );
 }
 var game;
-function GameInstance()
+function GameInstance(physics)
 {
-    game = new Game();
+    game = new Game(physics);
     game.setup_interface();
     setup_controls();
     load_map();
-    if(container != undefined && container.parameters != undefined)
-        game.audio_effects = container.parameters.audio_effects;
+    if(container != undefined && container.settings != undefined)
+        game.audio_effects =
+            container.settings.audio.value.effects.value;
     game.main();
 }
-if(typeof("Collide") != "function")
+console.log(container.settings);
+if(container != undefined && container.settings != undefined
+        && container.settings.physics.value.use_collide.value)
 {
+    console.log("using collide.js for physics");
     $.getScript("js/collide.js", function() {
-            GameInstance(); });
+            GameInstance(Collide); });
 }
-/*if(typeof("Physijs") != "function")
-{
-    $.getScript("js/physi.js", function() {
-            GameInstance(); });
-}*/
 else
 {
-    GameInstance();
+    console.log("using physi.js for physics");
+    $.getScript("js/physi.js", function() {
+            GameInstance(Physijs); });
 }
 </script>

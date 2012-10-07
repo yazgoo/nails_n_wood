@@ -1,8 +1,8 @@
-function Game()
+function Game(physics)
 {
     var marble;
     var marble_droped;
-    var ThreePhysics = Collide;
+    var ThreePhysics = physics;
     var done;
     this.cases;
     this.end_game_callback;

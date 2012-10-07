@@ -128,7 +128,6 @@ window.Collide = (function() {
             }
             self.reflect_speed = function(vx, vy)
             {
-                console.log("reflect cube");
                 return scale({x: self.dir[0] * vx,
                     y: self.dir[1] * vy}, Collide.rebound_factor);
             }
@@ -147,7 +146,6 @@ window.Collide = (function() {
             }
             self.reflect_speed = function(vx, vy)
             {
-                console.log("reflect cylinder");
                 // first we calculate the vector direction between 
                 // the cylinder and the sphere
                 var pos = Collide.main.position;

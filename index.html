@@ -8,9 +8,9 @@ type="text/css" href="style/container.css" />
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
 <script>$.ajaxSetup({ cache: true });</script>
-<script type="text/javascript" src="js/physi.js"></script>
+<!--<script type="text/javascript" src="js/physi.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
-<script type="text/javascript" src="js/game.js"></script>
+<script type="text/javascript" src="js/game.js"></script>-->
 <body>
 <div id="menu_container"></div>
 <script>
@@ -21,6 +21,27 @@ type="text/css" href="style/container.css" />
         setTimeout(function()
         {
             var audio_effects = true;
+            container.settings = {
+            audio: {name: "Audio",
+                value: {
+                effects: {name: "audio effects",
+                    kind: "toggle",
+                    value: true,
+                    text_on: "Effects are on",
+                    text_off: "Effects are off"},
+                music: {name: "music",
+                    kind: "toggle",
+                    value: true,
+                    text_on: "Music is on",
+                    text_off: "Music is off"}
+                }},
+            physics: {name: "Physics", 
+                value: {use_collide: {name: "use collide",
+                    kind: "toggle",
+                    value: true,
+                    text_on: "Using Collide.js",
+                    text_off: "Using Physi.js"}}}
+            }
             container.clear();
             a = {"Official Maps": "http",
                 "Your Maps": "localStorage"};
@@ -55,13 +76,25 @@ type="text/css" href="style/container.css" />
                 section.addButton("Settings",
                 function(value) {
                     container.pushState().clear();
-                    container.addSection("Sound", function(section){
-                        section.addToggle(audio_effects,
-                        "Effects on", "Effects off",
-                        function(state) {
-                            audio_effects = state;
+                    for(var i in settings)
+                    {
+                        container.addSection(settings[i].name,
+                        function(section){
+                            for(var j in settings[i].value)
+                            {
+                                var control = settings[i].value[j];
+                                if(control.kind == "toggle")
+                                {
+                                    section.addToggle(control.value,
+                                    control.text_on,
+                                    control.text_off,
+                                    function(state) {
+                                        control.value = state;
+                                    });
+                                }
+                            }
                         });
-                    });
+                    }
                     container.render();
                 });
             })
