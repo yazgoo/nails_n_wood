@@ -20,7 +20,7 @@ function run_test_games(tests)
         this.game.marble_position_set(this.test.x);
         this.game.marble_drop();
     }
-    this.game = new Game();
+    this.game = new Game(Collide);
     this.c = 0;
     this.counter = 0;
     game.setup_interface('physijs_worker.js', 'js/ammo.js');

@@ -34,19 +34,19 @@ function Game(physics)
                 new THREE.CubeGeometry(100, 200, 10),
                 wood_material);
         var wood_left = new ThreePhysics.BoxMesh(
-                new THREE.CubeGeometry(5, 200, 25),
+                new THREE.CubeGeometry(2, 200, 25),
                 wood_material, 0);
-        wood_left.position.x = -52.5;
+        wood_left.position.x = -51;
         wood_left.position.z = 5;
         var wood_right = new ThreePhysics.BoxMesh(
-                new THREE.CubeGeometry(5, 200, 25),
+                new THREE.CubeGeometry(2, 200, 25),
                 wood_material, 0);
-        wood_right.position.x = 52.5;
+        wood_right.position.x = 51;
         wood_right.position.z = 5;
         var wood_bottom = new ThreePhysics.BoxMesh(
-                new THREE.CubeGeometry(110, 5, 25),
+                new THREE.CubeGeometry(104, 2, 25),
                 wood_material, 0);
-        wood_bottom.position.y = -102.5;
+        wood_bottom.position.y = -101;
         wood_bottom.position.z = 5;
         //wood_back.receiveShadow = true;
         objects.push(wood_back);
@@ -62,7 +62,7 @@ function Game(physics)
         scene.add(wood_bottom);
         for(var i in cases) {
             var case_ = new ThreePhysics.BoxMesh(
-                    new THREE.CubeGeometry(5, 25, 25),
+                    new THREE.CubeGeometry(2, 25, 25),
                     wood_material,
                     0);
             case_.position.x = cases[i].position * 100 - 50;
@@ -223,9 +223,9 @@ function Game(physics)
         if(!done)
         {
             
-            if(marble.position.y < -97)
+            if(marble.position.y < -99)
             {
-                marble.position.y = -96;
+                marble.position.y = -98;
                 done = true;
                 console.log("end_game");
                 scene.removeEventListener('update',  game.simulate);

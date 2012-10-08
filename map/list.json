@@ -1,12 +1,7 @@
 {
     "Simple": {"path" : "0.png"},
     "ShenOne": {"path" : "s1.png"},
-    "Kikoo": {"path" : "2.png"},
-    "ShenTwo": {"path" : "s2.png"},
     "Ellipse": {"path" : "4.png"},
-    "ShenThree": {"path" : "s3.png"},
-    "Curly": {"path" : "6.png"},
-    "5": {"path" : "5.png"},
-    "3": {"path" : "3.png"},
-    "1": {"path" : "1.png"}
+    "ShenTwo": {"path" : "s2.png"},
+    "ShenThree": {"path" : "s3.png"}
 }
