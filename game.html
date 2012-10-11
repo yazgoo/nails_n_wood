@@ -92,12 +92,16 @@ var game;
 function GameInstance(physics)
 {
     game = new Game(physics);
+    if(container != undefined && container.settings != undefined)
+    {
+        game.audio_effects =
+            container.settings.audio.value.effects.value;
+        game.trackball_controls =
+            container.settings.controls.value.trackball.value;
+    }
     game.setup_interface();
     setup_controls();
     load_map();
-    if(container != undefined && container.settings != undefined)
-        game.audio_effects =
-            container.settings.audio.value.effects.value;
     game.main();
 }
 if(container != undefined && container.settings != undefined

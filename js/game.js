@@ -7,6 +7,7 @@ function Game(physics)
     this.cases;
     this.end_game_callback;
     this.audio_effects = true;
+    this.trackball_controls = false;
     var objects;
     var game = this;
     this.translate_marble = function(i)
@@ -48,16 +49,17 @@ function Game(physics)
                 wood_material, 0);
         wood_bottom.position.y = -101;
         wood_bottom.position.z = 5;
-        //wood_back.receiveShadow = true;
+        // wood_back.receiveShadow = true;
         objects.push(wood_back);
         scene.add(wood_back);
-        //wood_left.receiveShadow = true;
+        add_spot_light(50, 300, 360, wood_back);
+        // wood_left.receiveShadow = true;
         objects.push(wood_left);
         scene.add(wood_left);
-        //wood_right.receiveShadow = true;
+        // wood_right.receiveShadow = true;
         objects.push(wood_right);
         scene.add(wood_right);
-        //wood_bottom.receiveShadow = true;
+        // wood_bottom.receiveShadow = true;
         objects.push(wood_bottom);
         scene.add(wood_bottom);
         for(var i in cases) {
@@ -79,10 +81,10 @@ function Game(physics)
             sign.position.y = -100 + 25/2;
             sign.position.z = 5.1;
             //sign.rotation.y = 3.14 / 2;
-            //sign.receiveShadow = true;
+            // sign.receiveShadow = true;
             objects.push(sign);
             scene.add(sign);
-            //sign.receiveShadow = true;
+            // sign.receiveShadow = true;
             objects.push(case_);
             scene.add(case_);
         }
@@ -159,6 +161,7 @@ function Game(physics)
         for(var i in map) {
             var nail = new ThreePhysics.SphereMesh(
                     nail_geometry, nail_material, 0);
+            nail.castShadow = true;
             nail.rotation.x = -3.14/2;
             nail.rotation.y = -3.14/4;
             nail.position.x = map[i][0] * 100 - 50;
@@ -183,23 +186,19 @@ function Game(physics)
     var camera;
     var renderer;
     var controls;
-    this.setup_interface = function(worker_path, ammo_path) {
-        ThreePhysics.scripts.worker = (worker_path == undefined ?
-                'js/physijs_worker.js' : worker_path);
-        ThreePhysics.scripts.ammo = (ammo_path == undefined ?
-                'ammo.js' : ammo_path);
-        scene = new ThreePhysics.Scene();
-        var $container = $('#container');
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.shadowMapEnabled = true;
-        renderer.shadowMapSoft = true;
-        camera = new THREE.PerspectiveCamera(45,
-                $container.width() / $container.height(), 0.1, 1000);
-        camera.position.z = 300;
-        renderer.setSize($container.width(), $container.height());
-        $container.append(renderer.domElement);
-        scene.add(camera);
-        var pointLight = new THREE.PointLight( 0xFFFFFF );
+    var add_spot_light = function(x, y, z, target)
+    {
+        var light = new THREE.SpotLight();
+        light.position.set(x, y, z);
+        light.rotation.z = Math.PI;
+        light.shadowCameraVisible = true; 
+        light.castShadow = true;
+        light.shadowDarkness = 0.5;
+        light.intensity = 1;
+        scene.add(light);
+    }
+    this.setup_trackball_controls = function()
+    {
         controls = new THREE.TrackballControls(camera);
         controls.rotateSpeed = 1.0;
         controls.zoomSpeed = 1.2;
@@ -210,11 +209,42 @@ function Game(physics)
         controls.dynamicDampingFactor = 0.3;
         controls.keys = [ 65, 83, 68 ];
         controls.addEventListener( 'change', render );
+    }
+    this.setup_interface = function(worker_path, ammo_path) {
+        ThreePhysics.scripts.worker = (worker_path == undefined ?
+                'js/physijs_worker.js' : worker_path);
+        ThreePhysics.scripts.ammo = (ammo_path == undefined ?
+                'ammo.js' : ammo_path);
+        scene = new ThreePhysics.Scene();
+        var $container = $('#container');
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapSoft = true;
+
+        camera = new THREE.PerspectiveCamera(45,
+                $container.width() / $container.height(), 0.1, 1000);
+        camera.position.z = 300;
+        renderer.setSize($container.width(), $container.height());
+        $container.append(renderer.domElement);
+        scene.add(camera);
+        var pointLight = new THREE.PointLight( 0xFFFFFF );
         pointLight.position.x = 10;
         pointLight.position.y = 50;
         pointLight.position.z = 130;
         scene.add(pointLight);
+        if(this.trackball_controls) this.setup_trackball_controls()
+        var loader = new THREE.JSONLoader();
+        loader.load("./model/street.js", load_model);
     };
+    function load_model(geometry) {
+
+        /*geometry.materials[0][0].shading = THREE.FlatShading;
+        geometry.materials[0][0].morphTargets = true;*/
+        //var material = new THREE.MeshFaceMaterial();
+        mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial());
+        mesh.scale.set(50, 50, 50);
+        scene.add( mesh );
+    }
     render = function()
     {
         if(marble == undefined) return;
@@ -267,7 +297,7 @@ function Game(physics)
     var m = function()
     {
         requestAnimFrame(m);
-        controls.update();
+        if(controls != undefined) controls.update();
         render();
     }
     this.main = m;

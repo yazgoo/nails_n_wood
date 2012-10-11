@@ -204,7 +204,7 @@ window.Collide = (function() {
         {
             var self = this;
             Collide.interval = setInterval(function() {
-                self.dispatchEvent('update') }, 100);
+                self.dispatchEvent('update') }, 200);
             Collide.simulating = true;
             Collide.start_time = simulate_time;
             Collide.rebound_factor = 0.4;
