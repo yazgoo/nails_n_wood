@@ -8,6 +8,8 @@ function Game(physics)
     this.end_game_callback;
     this.audio_effects = true;
     this.trackball_controls = true;
+    this.model = "./model/street.js";
+    this.use_model = true;
     var objects;
     var game = this;
     this.translate_marble = function(i)
@@ -239,7 +241,8 @@ function Game(physics)
         scene.add(camera);
         if(this.trackball_controls) this.setup_trackball_controls()
         var loader = new THREE.JSONLoader();
-        loader.load("./model/street.js", load_model, "img/");
+        if(this.use_model)
+            loader.load(this.model, load_model, "img/");
     };
     function load_model(geometry) {
 

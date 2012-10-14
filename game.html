@@ -97,7 +97,9 @@ function GameInstance(physics)
         game.audio_effects =
             container.settings.audio.value.effects.value;
         game.trackball_controls =
-            container.settings.controls.value.trackball.value;
+            container.settings.graphics.value.trackball.value;
+        game.use_model =
+            container.settings.graphics.value.use_model.value;
     }
     game.setup_interface();
     setup_controls();

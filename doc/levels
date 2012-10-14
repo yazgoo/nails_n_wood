@@ -1,0 +1,69 @@
+This document describes levels syntax.
+
+level:
+    prerequisites, (e.g):
+        money
+        previous level
+    model # the background model
+    skybox
+    maps:
+        map:
+            description:
+            prerequisites, (e.g):
+                money
+                current level
+                previous level
+                achivement
+            nails:
+            cases:
+            achievements:
+                achievement:
+                    name
+                    description
+                    price
+                    verifier function
+
+example:
+
+Street:
+    prerequisites:
+        money: 0
+    model: "street.js"
+    skybox: none
+    maps:
+        first:
+            description: the first map you are going to play
+            prerequisites:
+                current level
+            nails: […]
+            cases:
+                [{ok, limit: …}…]
+            achievements:
+                ok:
+                    description: finish the map with ok
+                    price: 50
+                    verifier: 
+                        when: end
+                        test: target.ok
+                nok:
+                    description: finish the map with nok
+                    price: 25 
+                    verifier: 
+                        when: end
+                        test: !target.ok
+                quick:
+                    description: finish the map in 10 seconds
+                    price: 50
+                    verifier:
+                        when: end
+                        test: duration < 10000
+                no_hit:
+                    description: hit no nails
+                    price: 100
+                    verifier:
+                        when: end
+                        test: hit_count == 0
+
+                
+
+
