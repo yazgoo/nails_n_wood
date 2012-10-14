@@ -7,7 +7,7 @@ function Game(physics)
     this.cases;
     this.end_game_callback;
     this.audio_effects = true;
-    this.trackball_controls = false;
+    this.trackball_controls = true;
     var objects;
     var game = this;
     this.translate_marble = function(i)
@@ -52,7 +52,8 @@ function Game(physics)
         // wood_back.receiveShadow = true;
         objects.push(wood_back);
         scene.add(wood_back);
-        add_spot_light(50, 300, 360, wood_back);
+        //add_spot_light(50, 200, 0, wood_back);
+        add_point_light(0, 50, 50);
         // wood_left.receiveShadow = true;
         objects.push(wood_left);
         scene.add(wood_left);
@@ -197,6 +198,15 @@ function Game(physics)
         light.intensity = 1;
         scene.add(light);
     }
+    var add_point_light = function(x, y, z)
+    {
+        var pointLight = new THREE.PointLight(0xFFFFFF);
+        pointLight.position.x = x;
+        pointLight.position.y = y;
+        pointLight.position.z = z;
+        pointLight.intensity = 2;
+        scene.add(pointLight);
+    }
     this.setup_trackball_controls = function()
     {
         controls = new THREE.TrackballControls(camera);
@@ -227,21 +237,16 @@ function Game(physics)
         renderer.setSize($container.width(), $container.height());
         $container.append(renderer.domElement);
         scene.add(camera);
-        var pointLight = new THREE.PointLight( 0xFFFFFF );
-        pointLight.position.x = 10;
-        pointLight.position.y = 50;
-        pointLight.position.z = 130;
-        scene.add(pointLight);
         if(this.trackball_controls) this.setup_trackball_controls()
         var loader = new THREE.JSONLoader();
-        loader.load("./model/street.js", load_model);
+        loader.load("./model/street.js", load_model, "img/");
     };
     function load_model(geometry) {
 
         /*geometry.materials[0][0].shading = THREE.FlatShading;
         geometry.materials[0][0].morphTargets = true;*/
-        //var material = new THREE.MeshFaceMaterial();
-        mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial());
+        var material = new THREE.MeshFaceMaterial();
+        mesh = new THREE.Mesh( geometry, material);
         mesh.scale.set(50, 50, 50);
         scene.add( mesh );
     }
