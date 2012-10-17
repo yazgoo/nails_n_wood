@@ -20,101 +20,95 @@ type="text/css" href="style/container.css" />
         container.render();
         setTimeout(function()
         {
-            var audio_effects = true;
-            container.settings = {
-            audio: {name: "Audio",
-                value: {
-                effects: {name: "audio effects",
-                    kind: "toggle",
-                    value: true,
-                    text_on: "Effects are on",
-                    text_off: "Effects are off"},
-                music: {name: "music",
-                    kind: "toggle",
-                    value: true,
-                    text_on: "Music is on",
-                    text_off: "Music is off"}
-                }},
-                graphics: {name: "Graphics",
-                    value: {
-                        trackball: {name: "Trackball",
-                            kind: "toggle",
-                            value: false,
-                            text_on: "trackball is on",
-                            text_off: "trackball is off"},
-                        use_model: {name: "use model",
-                                kind: "toggle",
-                                value: true,
-                                text_on: "Use model",
-                                text_off: "Don\\\'t use model"}
-                    }},
-            physics: {name: "Physics", 
-                value: {use_collide: {name: "use collide",
-                    kind: "toggle",
-                    value: true,
-                    text_on: "Using Collide.js",
-                    text_off: "Using Physi.js"}}},
-                
-            }
-            container.clear();
-            a = {"Official Maps": "http",
-                "Your Maps": "localStorage"};
-            for(name in a) {
-                container.addSection(name, function(section) {
-                    var storage_type = a[name];
-                    MapsFactory(storage_type).list(function(list) {
-                        if(storage_type == "localStorage")
-                        {
-                            section.addButton("Editor",
-                            function(value) {
-                                container.pushState()
-                                .clear().include('editor.html');
-                            });
-                        }
-                        for(i in list) {
-                            section.addButton(list[i],
-                            function(value) {
-                                container.pushState().clear();
-                                container.include('game.html',
-                                {
-                                    storage: storage_type,
-                                    name: value,
-                                    audio_effects: audio_effects
-                                });
-                            });
-                            container.render();
-                        }
-                }) });
-            }
-            container.addSection("Tools", function(section) {
-                section.addButton("Settings",
-                function(value) {
-                    container.pushState().clear();
-                    for(var i in container.settings)
-                    {
-                        container.addSection(container.settings[i].name,
-                        function(section){
-                            for(var j in container.settings[i].value)
-                            {
-                                var control = container.settings[i].value[j];
-                                if(control.kind == "toggle")
-                                {
-                                    section.addToggle(control.value,
-                                    control.text_on,
-                                    control.text_off,
-                                    function(state) {
-                                        control.value = state;
+            $.getJSON("settings.json",
+            function(settings, textStatus, jqXHR)
+            {
+                container.settings = settings;
+                container.clear();
+                container.addSection("Levels", function(section) {
+                    var levels = new Levels();
+                    levels.each(function(levelName, levelId) {
+                        section.addButton(levelName,
+                        function(value) {
+                            container.pushState().clear();
+                            container.addSection(levelName,
+                            function(section) {
+                            levels.open(levelId, function(level) {
+                                for(var i in level.game) {
+                                    section.addButton(i,
+                                    function(val)
+                                    {
+                                        var game = level.game[val];
+                                        container.pushState().clear();
+                                        container.include('game.html',
+                                        {
+                                            storage:
+                                            game.map.storage,
+                                            name: game.map.name,
+                                        });
                                     });
-                                }
-                            }
+                        }
+                        container.render(); })});
                         });
-                    }
-                    container.render();
+                        container.render();
+                    });
                 });
-            })
-            container.addLink(
-            "https://github.com/yazgoo/nails_n_wood",
-            "about");
+                var a = {
+                    "Your Maps": "localStorage"};
+                for(var name in a) {
+                    container.addSection(name, function(section) {
+                        var storage_type = a[name];
+                        MapsFactory(storage_type).list(
+                        function(list) {
+                            for(i in list) {
+                                section.addButton(list[i],
+                                function(value) {
+                                    container.pushState().clear();
+                                    container.include('game.html',
+                                    {
+                                        storage: storage_type,
+                                        name: value,
+                                    });
+                                });
+                                container.render();
+                            }
+                    }) });
+                }
+                container.addSection("Tools", function(section) {
+                    section.addButton("Editor",
+                    function(value) {
+                        container.pushState()
+                        .clear().include('editor.html');
+                    });
+                    section.addButton("Settings",
+                    function(value) {
+                        container.pushState().clear();
+                        for(var i in container.settings)
+                        {
+                            container.addSection(container.settings[i].name,
+                            function(section){
+                                for(var j in container.settings[i].value)
+                                {
+                                    var control = container.settings[i].value[j];
+                                    if(control.kind == "toggle")
+                                    {
+                                        section.addToggle(control.value,
+                                        control.text_on,
+                                        control.text_off,
+                                        function(state) {
+                                            control.value = state;
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        container.render();
+                    });
+                })
+                container.addLink(
+                "https://github.com/yazgoo/nails_n_wood",
+                "about");
+            });
         }, 3000);
     });
 </script>

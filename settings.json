@@ -1,0 +1,60 @@
+{
+    "audio":
+    {
+        "name": "Audio",
+            "value":
+            {
+                "effects":
+                {
+                    "name": "audio effects",
+                    "kind": "toggle",
+                    "value": true,
+                    "text_on": "Effects are on",
+                    "text_off": "Effects are off"},
+                "music":
+                {
+                    "name": "music",
+                    "kind": "toggle",
+                    "value": true,
+                    "text_on": "Music is on",
+                    "text_off": "Music is off"}
+            }
+    },
+        "graphics":
+        {
+            "name": "Graphics",
+            "value":
+            {
+                "trackball":
+                {
+                    "name": "Trackball",
+                    "kind": "toggle",
+                    "value": false,
+                    "text_on": "trackball is on",
+                    "text_off": "trackball is off"},
+                "use_model":
+                {
+                    "name": "use model",
+                    "kind": "toggle",
+                    "value": true,
+                    "text_on": "Use model",
+                    "text_off": "Dont use model"
+                }
+            }
+        },
+        "physics":
+        {
+            "name": "Physics", 
+            "value":
+            {
+                "use_collide":
+                {
+                    "name": "use collide",
+                    "kind": "toggle",
+                    "value": true,
+                    "text_on": "Using Collide.js",
+                    "text_off": "Using Physi.js"
+                }
+            }
+        }
+}

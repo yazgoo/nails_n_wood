@@ -147,3 +147,23 @@ function MapsFactory(type)
     else if(type == "procedural")
         return new ProceduralStorageMaps();
 }
+function Levels()
+{
+    this.each = function(callback)
+    {
+        $.getJSON("levels.json",
+                function(levels, textStatus, jqXHR) {
+                    for(i in levels) {
+                        var level = levels[i];
+                        callback(level[0], level[1]);
+                    }
+                });
+    }
+    this.open = function(id, callback)
+    {
+        $.getJSON("level/" + id + ".json",
+                function(level, textStatus, jqXHR) {
+                    callback(level);
+                });
+    }
+}
