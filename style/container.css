@@ -10,7 +10,7 @@ body
     font-family: "Sans-serif";
     border-radius: 20px;
     text-align: center;
-    padding-top: 10px;
+    overflow: hidden;
     background-color: white;
     opacity:0.9;
 }

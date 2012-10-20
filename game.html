@@ -6,14 +6,52 @@
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 <script type="text/javascript" src="js/getUrlVars.js"></script>
-<div id="container"></div>
-<div id="controls"></div>
+<img src="img/corner_top_right.png"
+style="
+position: absolute;
+left: 644px;
+z-index: 10;
+"/>
+<img src="img/corner_top_right.png"
+style="position: absolute;
+left: 8px;
+-moz-transform: scaleX(-1);
+-o-transform: scaleX(-1);
+-webkit-transform: scaleX(-1);
+transform: scaleX(-1);
+filter: FlipH;
+-ms-filter: 'FlipH';
+z-index: 10;
+"/>
+<img src="img/corner_top_right.png"
+style="
+position: absolute;
+top: 545px;
+left: 644px;
+-moz-transform: scaleY(-1);
+-o-transform: scaleY(-1);
+-webkit-transform: scaleY(-1);
+transform: scaleY(-1);
+filter: FlipV;
+-ms-filter: 'FlipV';
+z-index: 10;
+"/>
+<img src="img/corner_bottom_left.png"
+style="
+position: absolute;
+top: 545px;
+left: 8px;
+z-index: 10;
+"/>
+<div id="container">
+</div>
+<div id="controls" script="z-index:0"></div>
 <script type="text/javascript">
 var image_to_map = function(image)
 {
     var canvas = $('<canvas/>').css( {
 width: image.width + 'px',
-height: image.height + 'px'
+height: image.height + 'px',
 })[0];
 canvas.width = image.width;
 canvas.height = image.height;

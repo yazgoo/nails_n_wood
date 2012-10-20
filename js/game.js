@@ -229,7 +229,10 @@ function Game(physics)
                 'ammo.js' : ammo_path);
         scene = new ThreePhysics.Scene();
         var $container = $('#container');
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer = new THREE.WebGLRenderer( { antialias: true,
+             } );
+        // canvas: $("#c")[0]
+        //$(renderer.domElement).css( { borderRadius: "20px" } );
         renderer.shadowMapEnabled = true;
         renderer.shadowMapSoft = true;
 
