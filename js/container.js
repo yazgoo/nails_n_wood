@@ -42,20 +42,24 @@ function Container(name, callback)
                 }, "text");
         return this;
     }
-    this.html_contents = [];
-    this.pushState = function()
+    this.html_contents = {};
+    var html_contents = this.html_contents;
+    window.addEventListener('popstate', function(event) {
+        console.log("popstate " + event.state);
+        var contents = html_contents[event.state];
+        if(contents == undefined) return;
+        container.clear();
+        // event.state
+        container.setHtml(contents);
+    });
+    this.pushState = function(id)
     {
         var html = this.html();
-        window.history.pushState("", "Title");
-        this.html_contents.push(html);
+        console.log("push state " + id);
+        window.history.pushState(id, "Title");
+        this.html_contents[id] = html;
         var container = this;
         var html_contents = this.html_contents;
-        window.addEventListener('popstate', function(event) {
-            if(html_contents.length == 0) return;
-            container.clear();
-            // event.state
-            container.setHtml(html_contents.pop());
-        });
         return this;
     }
     this.clear = function()

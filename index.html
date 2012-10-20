@@ -30,7 +30,8 @@ type="text/css" href="style/container.css" />
                     levels.each(function(levelName, levelId) {
                         section.addButton(levelName,
                         function(value) {
-                            container.pushState().clear();
+                            container.pushState(
+                            "level_" + levelName).clear();
                             container.addSection(levelName,
                             function(section) {
                             levels.open(levelId, function(level) {
@@ -39,12 +40,12 @@ type="text/css" href="style/container.css" />
                                     function(val)
                                     {
                                         var game = level.game[val];
-                                        container.pushState().clear();
+                                        container.pushState(
+                                        "level.game_" + val)
+                                        .clear();
                                         container.include('game.html',
                                         {
-                                            storage:
-                                            game.map.storage,
-                                            name: game.map.name,
+                                            game: game
                                         });
                                     });
                         }
@@ -75,9 +76,14 @@ type="text/css" href="style/container.css" />
                     }) });
                 }
                 container.addSection("Tools", function(section) {
+                    section.addButton("Inventory",
+                    function(value) {
+                        container.pushState("tools_inventory")
+                        .clear().include('inventory.html');
+                    });
                     section.addButton("Editor",
                     function(value) {
-                        container.pushState()
+                        container.pushState("tools_editor")
                         .clear().include('editor.html');
                     });
                     section.addButton("Settings",

@@ -2,6 +2,8 @@ function Game(physics)
 {
     var marble;
     var marble_droped;
+    var marble_droped_date;
+    var hit_count;
     var ThreePhysics = physics;
     var done;
     this.cases;
@@ -10,6 +12,7 @@ function Game(physics)
     this.trackball_controls = true;
     this.model = "./model/street.js";
     this.use_model = true;
+    this.descriptor;
     var objects;
     var game = this;
     this.translate_marble = function(i)
@@ -113,6 +116,8 @@ function Game(physics)
     {
         if(marble_droped) return;
         marble_droped = true;
+        marble_droped_date = new Date();
+        hit_count = 0;
         var old_x = marble.position.x;
         scene.remove(marble);
         marble = new ThreePhysics.SphereMesh(
@@ -122,6 +127,7 @@ function Game(physics)
         var audio_effects = this.audio_effects;
         marble.addEventListener('collision', function(object) {
             if(object != last_object_collided) {
+                hit_count++;
                 if(audio_effects) {
                     new Audio("sound/collision.ogg").play();
                 }
@@ -283,6 +289,10 @@ function Game(physics)
         }
         renderer.render(scene, camera);
     }
+    function get_duration()
+    {
+        new Date().getTime() - marble_droped_date.getTime();
+    }
     function end_game(position)
     {
         var x = (position.x + 50) / 100.0;
@@ -292,15 +302,22 @@ function Game(physics)
             if(i == (this.cases.length - 1) ||
                     x < _case.position)
             {
+                var additional_message;
                 if(game.end_game_callback != undefined)
-                    game.end_game_callback(position, _case);
+                    additional_message = game.end_game_callback(
+                            position, _case,
+                            get_duration(), hit_count);
+                if(additional_message == undefined)
+                    additional_message = "";
                 var message =
                     $("#message").css("visibility", "visible");
                 if(_case.ok)
-                    message.html("<br/><br/>You won!<br/>"
+                    message.html(additional_message +
+                            "<br/><br/>You won!<br/>"
                             + "<input type='button' value='next'"
                             + " onclick='next()'/>");
-                else message.html("<br/><br/>You failed!");
+                else message.html(additional_message +
+                        "<br/><br/>You failed!");
                 return;
             }
         }

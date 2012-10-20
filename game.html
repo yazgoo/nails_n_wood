@@ -5,6 +5,7 @@
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript" src="js/canvas_to_map.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
+<script type="text/javascript" src="js/inventory.js"></script>
 <script type="text/javascript" src="js/getUrlVars.js"></script>
 <img src="img/corner_top_right.png"
 style="
@@ -65,8 +66,8 @@ function load_map()
     var storage_type;
     if(container != undefined && container.parameters != undefined)
     {
-        storage_type = container.parameters.storage;
-        map_name = container.parameters.name;
+        storage_type = container.parameters.game.map.storage;
+        map_name = container.parameters.game.map.name;
     }
     else if(getUrlVars()["action"] == "load_from_local_storage") {
         storage_type = "localStorage";
@@ -129,6 +130,7 @@ var setup_controls = function() {
 var game;
 function GameInstance(physics)
 {
+    console.log("test");
     game = new Game(physics);
     if(container != undefined && container.settings != undefined)
     {
@@ -138,6 +140,38 @@ function GameInstance(physics)
             container.settings.graphics.value.trackball.value;
         game.use_model =
             container.settings.graphics.value.use_model.value;
+        game.end_game_callback = function(
+                position, target, duration, hit_count)
+        {
+            var result = "";
+            var achievements =
+                container.parameters.game.achievements;
+            var inventory = new Inventory();
+            for(var i in achievements)
+            {
+                var achievement = achievements[i];
+                var verifier = achievement.verifier;
+                if(verifier.when == "end")
+                {
+                    if(eval(verifier.test))
+                    {
+                        if(!inventory.achievement_unlocked(
+                                    achievement.id))
+                        {
+                            result += "<img id=\"achievement\" "
+                                + "src=\"img/ach_" +
+                                achievement.name.replace(" ", "_")
+                                + ".png\"/>";
+                            result += "achievement unlocked: "
+                                + achievement.description + "<br/>";
+                            inventory.achievement_unlock(
+                                    achievement.id);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
     game.setup_interface();
     setup_controls();

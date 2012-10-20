@@ -18,6 +18,7 @@
             },
             "achievements": [
             {
+                "id": 0,
                 "name": "ok",
                 "price": 50,
                 "description": "finish the map with ok",
@@ -27,6 +28,7 @@
                 }
             },
             {
+                "id": 1,
                 "name": "nok",
                 "price": 25,
                 "description": "finish the map with nok",
@@ -36,6 +38,7 @@
                 }
             },
             {
+                "id": 2,
                 "name": "fast",
                 "price": 50,
                 "description": "finish the map in less than 10 seconds",
@@ -45,6 +48,7 @@
                 }
             },
             {
+                "id": 3,
                 "name": "no hit",
                 "price": 100,
                 "description": "do not hit any nail",
