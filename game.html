@@ -147,6 +147,7 @@ function GameInstance(physics)
             var achievements =
                 container.parameters.game.achievements;
             var inventory = new Inventory();
+            result += "<div id=\"achievements\">"
             for(var i in achievements)
             {
                 var achievement = achievements[i];
@@ -162,14 +163,18 @@ function GameInstance(physics)
                                 + "src=\"img/ach_" +
                                 achievement.name.replace(" ", "_")
                                 + ".png\"/>";
-                            result += "achievement unlocked: "
-                                + achievement.description + "<br/>";
+                            result += " achievement unlocked: "
+                                + achievement.description
+                                + " (<b>" + achievement.price
+                                + "</b>)"
+                                + "<br/>";
                             inventory.achievement_unlock(
                                     achievement.id);
                         }
                     }
                 }
             }
+            result += "</div>"
             return result;
         }
     }

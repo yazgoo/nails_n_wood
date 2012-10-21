@@ -23,6 +23,9 @@ body
         border: 3px solid #33333;
         border-radius: 5px;
     }
+    #achievements {
+        text-align: left;
+    }
     input {
         border: 0;
         margin: 1px;
@@ -84,7 +87,8 @@ body
     #message {
         position: relative;
         top: 150px;
-        left: 150px;
+        left: 5px;
+        width: 635px;
         font-family: "Sans-serif";
         border-radius: 20px;
         vertical-align: middle;
