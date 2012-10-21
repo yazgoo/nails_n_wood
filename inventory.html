@@ -1,6 +1,13 @@
 <script src="js/inventory.js"></script>
 <script src="js/jquery.js"></script>
-Credits: <div id="inventory_credits"></div>
+<h2>Inventory</h2>
+<input type="button" value="reset"
+onclick="if(confirm('This will remove all your '
++ 'inventory (credits, achievements, levels...).'
++ 'Are you sure ?')) inventory.reset();"/>
+<br/>
+Credits: <span id="inventory_credits"></span>
 <script>
-    $("#inventory_credits").html(new Inventory().credits());
+    var inventory = new Inventory();
+    $("#inventory_credits").html(inventory.credits());
 </script>

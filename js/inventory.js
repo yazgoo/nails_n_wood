@@ -2,7 +2,7 @@ function Inventory()
 {
     var credits_count = "credits_count";
     var unlocked_achievements = "unlocked_achievements";
-    var default_values = default_values = {
+    var default_values = {
             credits_count: 0,
             unlocked_achievements: {}
         };
@@ -40,15 +40,16 @@ function Inventory()
         _(credits_count, _(credits_count) + value);
         return this;
     }
-    this.achievement_unlocked = function(id)
+    this.achievement_unlocked = function(achievement)
     {
-        return _(unlocked_achievements)[id];
+        return _(unlocked_achievements)[achievement.id];
     }
-    this.achievement_unlock = function(id)
+    this.achievement_unlock = function(achievement)
     {
-        if(this.achievement_unlocked(id)) return this;
+        if(this.achievement_unlocked(achievement.id)) return this;
         achievements = _(unlocked_achievements);
-        achievements[id] = true;
+        achievements[achievement.id] = true;
+        this.credits_add(achievement.price);
         _(unlocked_achievements, achievements);
         return this;
     }

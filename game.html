@@ -157,7 +157,7 @@ function GameInstance(physics)
                     if(eval(verifier.test))
                     {
                         if(!inventory.achievement_unlocked(
-                                    achievement.id))
+                                    achievement))
                         {
                             result += "<img id=\"achievement\" "
                                 + "src=\"img/ach_" +
@@ -169,7 +169,7 @@ function GameInstance(physics)
                                 + "</b>)"
                                 + "<br/>";
                             inventory.achievement_unlock(
-                                    achievement.id);
+                                    achievement);
                         }
                     }
                 }
