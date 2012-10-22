@@ -16,51 +16,14 @@
                 "type": "image",
                 "name": "Simple"
             },
-            "achievements": [
-            {
-                "id": 0,
-                "name": "ok",
-                "price": 50,
-                "description": "finish the map with ok",
-                "verifier": {
-                    "when": "end",
-                    "test": "target.ok"
-                }
-            },
-            {
-                "id": 1,
-                "name": "nok",
-                "price": 25,
-                "description": "finish the map with nok",
-                "verifier": {
-                    "when": "end",
-                    "test": "!target.ok"
-                }
-            },
-            {
-                "id": 2,
-                "name": "fast",
-                "price": 50,
-                "description": "finish the map in less than 10 seconds",
-                "verifier": {
-                    "when": "end",
-                    "test": "duration < 10000"
-                }
-            },
-            {
-                "id": 3,
-                "name": "no hit",
-                "price": 100,
-                "description": "do not hit any nail",
-                "verifier": {
-                    "when": "end",
-                    "test": "hit_count == 0"
-                }
-            }
-            ]
-            
+            "achievements_ids": ["0", "1", "2", "3"]
         },
         "ShenOne": {
+            "description": "the first map you are going to play",
+            "prerequisites": {
+                "levels": ["street"],
+                "achievements_ids": ["0"]
+            },
             "map": {
                 "storage": "http",
                 "type": "image",

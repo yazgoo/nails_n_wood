@@ -164,6 +164,9 @@ function Levels()
         $.getJSON("level/" + id + ".json",
                 function(level, textStatus, jqXHR) {
                     callback(level);
-                });
+                }).error(function(a, b, c) {
+            console.log("error while loading level " + id);
+            console.log(b);
+        });
     }
 }

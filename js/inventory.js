@@ -25,7 +25,6 @@ function Inventory()
             var default_value = default_values[name];
             value = default_value == undefined ?{}:default_value;
         }
-        console.log(value);
         localStorage[fullname] = JSON.stringify(value);
         return value;
     }
@@ -52,6 +51,30 @@ function Inventory()
         this.credits_add(achievement.price);
         _(unlocked_achievements, achievements);
         return this;
+    }
+    this.achievements_locked_ids_get_from_ids = function(ids)
+    {
+        achievements_locked_ids = [];
+        for(i in ids)
+            if(!_(unlocked_achievements)[ids[i]])
+                result.push(ids[i]);
+        return achievements_locked_ids;
+    }
+    return this;
+}
+function Achievements(id)
+{
+    this.get = function(callback)
+    {
+        $.getJSON("achievements/" + id + ".json",
+                function(achievements, textStatus, jqXHR) {
+                    for(id in achievements)
+                        achievements[id].id = id;
+                    callback(achievements);
+                }).error(function(a, b, c) {
+            console.log("error while loading level " + id);
+            console.log(b);
+        });
     }
     return this;
 }

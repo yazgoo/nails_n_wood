@@ -4,10 +4,14 @@
 <input type="button" value="reset"
 onclick="if(confirm('This will remove all your '
 + 'inventory (credits, achievements, levels...).'
-+ 'Are you sure ?')) inventory.reset();"/>
++ 'Are you sure ?')) inventory.reset(); update_values();"/>
 <br/>
 Credits: <span id="inventory_credits"></span>
 <script>
-    var inventory = new Inventory();
+var inventory = new Inventory();
+function update_values()
+{
     $("#inventory_credits").html(inventory.credits());
+}
+update_values();
 </script>

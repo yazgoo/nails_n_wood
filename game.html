@@ -128,9 +128,45 @@ var setup_controls = function() {
             );
 }
 var game;
+var _achievements;
+function end_game(position, target, duration, hit_count)
+{
+    var result = "";
+    var achievements_ids =
+        container.parameters.game.achievements_ids;
+    var inventory = new Inventory();
+    result += "<div id=\"achievements\">";
+    for(var i in achievements_ids)
+    {
+        var achievement = _achievements["" + achievements_ids[i]];
+        var verifier = achievement.verifier;
+        if(verifier.when == "end")
+        {
+            if(eval(verifier.test))
+            {
+                if(!inventory.achievement_unlocked(
+                            achievement))
+                {
+                    result += "<img id=\"achievement\" "
+                        + "src=\"img/ach_" +
+                        achievement.name.replace(" ", "_")
+                        + ".png\"/>";
+                    result += " achievement unlocked: "
+                        + achievement.description
+                        + " (<b>" + achievement.price
+                        + "</b>)"
+                        + "<br/>";
+                    inventory.achievement_unlock(
+                            achievement);
+                }
+            }
+        }
+    }
+    result += "</div>"
+    return result;
+}
 function GameInstance(physics)
 {
-    console.log("test");
     game = new Game(physics);
     if(container != undefined && container.settings != undefined)
     {
@@ -140,48 +176,16 @@ function GameInstance(physics)
             container.settings.graphics.value.trackball.value;
         game.use_model =
             container.settings.graphics.value.use_model.value;
-        game.end_game_callback = function(
-                position, target, duration, hit_count)
-        {
-            var result = "";
-            var achievements =
-                container.parameters.game.achievements;
-            var inventory = new Inventory();
-            result += "<div id=\"achievements\">"
-            for(var i in achievements)
-            {
-                var achievement = achievements[i];
-                var verifier = achievement.verifier;
-                if(verifier.when == "end")
-                {
-                    if(eval(verifier.test))
-                    {
-                        if(!inventory.achievement_unlocked(
-                                    achievement))
-                        {
-                            result += "<img id=\"achievement\" "
-                                + "src=\"img/ach_" +
-                                achievement.name.replace(" ", "_")
-                                + ".png\"/>";
-                            result += " achievement unlocked: "
-                                + achievement.description
-                                + " (<b>" + achievement.price
-                                + "</b>)"
-                                + "<br/>";
-                            inventory.achievement_unlock(
-                                    achievement);
-                        }
-                    }
-                }
-            }
-            result += "</div>"
-            return result;
-        }
+        Achievements(container.parameters.level_id).get(
+                function callback(ach) {
+                _achievements = ach;
+                game.end_game_callback = end_game;
+                game.setup_interface();
+                setup_controls();
+                load_map();
+                game.main();
+                });
     }
-    game.setup_interface();
-    setup_controls();
-    load_map();
-    game.main();
 }
 if(container != undefined && container.settings != undefined
         && container.settings.physics.value.use_collide.value)

@@ -80,15 +80,17 @@ function Container(name, callback)
     function Section(name, callback)
     {
         var buttons = [];
-        function Button(name, callback)
+        function Button(name, callback, id)
         {
             ContainerCallbacks.push(callback);
             this.callback_id = ContainerCallbacks.length - 1;
             this.html = function()
             {
+                var parameters = '\''+name+'\'';
+                if(id != undefined) parameters += ', \''+id+'\'';
                 return '<input type="button" ' +
                     'onclick="ContainerCallbacks['
-                    + this.callback_id  + '](\''+name+'\');" ' +
+                    + this.callback_id  + ']('+parameters+');" ' +
                     'value="' + name + '" id="map"/>';
             }
         }
@@ -110,9 +112,9 @@ function Container(name, callback)
                     'value="' + values[0] + '" id="map"/>';
             }
         }
-        this.addButton = function(name, callback)
+        this.addButton = function(name, callback, id)
         {
-            buttons.push(new Button(name, callback));
+            buttons.push(new Button(name, callback, id));
         }
         this.addToggle = function(default_state,
                 on_value, off_value, callback)

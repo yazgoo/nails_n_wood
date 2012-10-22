@@ -6,6 +6,7 @@ type="text/css" href="style/container.css" />
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>$.ajaxSetup({ cache: true });</script>
 <script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/inventory.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
 <script>$.ajaxSetup({ cache: true });</script>
 <!--<script type="text/javascript" src="js/physi.js"></script>
@@ -14,6 +15,36 @@ type="text/css" href="style/container.css" />
 <body>
 <div id="menu_container"></div>
 <script>
+    function level_list(levelName, levelId) {
+        container.pushState("level_" + levelId).clear();
+        container.addSection(levelName, function(section) {
+            new Levels().open(levelId, function(level) {
+                for(var i in level.game) {
+                    section.addButton(i,
+                    function(val)
+                    {
+                        var game = level.game[val];
+                        var inventory = new Inventory();
+                        var ids =
+                        inventory.achievements_locked_ids_get_from_ids(
+                        level.prerequisites.achievements_ids);
+                        if(ids.length == 0)
+                        {
+                            container.pushState("level.game_" + val).clear();
+                            container.include('game.html',
+                            {
+                                game: game,
+                                level_id: levelId
+                            });
+                        }
+                        else
+                        {
+                            alert("you need to unlock :" + ids)
+                        }
+                    });
+                }
+                container.render(); })});
+    }
     var container = new Container(
     "#menu_container", function(container) {
         container.addImage("img/logo.png");
@@ -29,28 +60,7 @@ type="text/css" href="style/container.css" />
                     var levels = new Levels();
                     levels.each(function(levelName, levelId) {
                         section.addButton(levelName,
-                        function(value) {
-                            container.pushState(
-                            "level_" + levelName).clear();
-                            container.addSection(levelName,
-                            function(section) {
-                            levels.open(levelId, function(level) {
-                                for(var i in level.game) {
-                                    section.addButton(i,
-                                    function(val)
-                                    {
-                                        var game = level.game[val];
-                                        container.pushState(
-                                        "level.game_" + val)
-                                        .clear();
-                                        container.include('game.html',
-                                        {
-                                            game: game
-                                        });
-                                    });
-                        }
-                        container.render(); })});
-                        });
+                        level_list, levelId);
                         container.render();
                     });
                 });
