@@ -32,7 +32,40 @@ To draw the targets, on the last line, put the pixels colors:
 - ok sign: green
 - not ok sign: red
 - limit between two targets: blue
-
+Writing achievements
+--------------------
+A map by itself can be fun, but what really can make it cooler
+is achievements. You define achievements in:
+    achievements/$level_id.json
+Where level is the name of the level you want your achievement
+to be in.
+An achievements file contains a list of achievements, indexed by
+a local id for the achievements, the real id being:
+    $level_id/$local_id
+Here is an example of such a file:
+    {
+    "myAch": {
+           "name": "fast",
+           "price": 50,
+           "description": "finish the map in less than 10 seconds",
+           "verifier": {
+               "when": "end",
+               "test": "duration < 10000"
+           }
+       },
+    }
+Here, the local id is myAch. We name the event, give a number of
+credits to be added if the achievement is unlocked, a description
+Then, we give a verifier, which is a condition for the achievement 
+to be met. Here we specify we want the verifier to be run at the
+end of the game, i.e. when the marble reaches the bottom, and
+we specify a test to be evaluated. Here the duration variable
+must be under 10000 milliseconds, which means that the ball has
+fallen under 10 seconds. Here are other variables:
+- target, which contain the target hit (target.ok is true if the
+        target is ok)
+- hit\_count, the number of time the marble hit a nail
+- duration, the duration of the fall.
 Automated tests
 ---------------
 
