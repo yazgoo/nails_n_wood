@@ -57,20 +57,26 @@ function Inventory()
         achievements_locked_ids = [];
         for(i in ids)
             if(!_(unlocked_achievements)[ids[i]])
-                result.push(ids[i]);
+                achievements_locked_ids.push(ids[i]);
         return achievements_locked_ids;
     }
     return this;
 }
-function Achievements(id)
+function Achievements(level)
 {
-    this.get = function(callback)
+    this.get = function(callback, ids)
     {
-        $.getJSON("achievements/" + id + ".json",
+        $.getJSON("achievements/" + level + ".json",
                 function(achievements, textStatus, jqXHR) {
-                    for(id in achievements)
-                        achievements[id].id = id;
-                    callback(achievements);
+                    result = {};
+                    for(var id in achievements) {
+                        if(ids == undefined || id in ids) {
+                        achievements[id].id = level + "/" + id;
+                        result[achievements[id].id] = achievements[id];
+                        }
+                    }
+                    console.log(result);
+                    callback(result);
                 }).error(function(a, b, c) {
             console.log("error while loading level " + id);
             console.log(b);

@@ -27,7 +27,7 @@ type="text/css" href="style/container.css" />
                         var inventory = new Inventory();
                         var ids =
                         inventory.achievements_locked_ids_get_from_ids(
-                        level.prerequisites.achievements_ids);
+                        game.prerequisites.achievements_ids);
                         if(ids.length == 0)
                         {
                             container.pushState("level.game_" + val).clear();
@@ -39,7 +39,17 @@ type="text/css" href="style/container.css" />
                         }
                         else
                         {
-                            alert("you need to unlock :" + ids)
+                            new Achievements(levelId).get(
+                            function(achievements) {
+                                var str = "you need to unlock:";
+                                for(var id in achievements)
+                                {
+                                    str += "\n-" +
+                                    achievements[id].name + ": "
+                                    + achievements[id].description;
+                                }
+                                alert(str);
+                            }, ids); 
                         }
                     });
                 }

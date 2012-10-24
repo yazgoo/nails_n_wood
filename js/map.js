@@ -163,6 +163,27 @@ function Levels()
     {
         $.getJSON("level/" + id + ".json",
                 function(level, textStatus, jqXHR) {
+                    for(var i in level.game) {
+                        var game = level.game[i];
+                        if(!("achievements_ids" in game)) { 
+                            game.achievements_ids = [];
+                        }
+                        var ids = game.achievements_ids;
+                        for(var j in ids) {
+                            ids[j] = id + "/" + ids[j]
+                        }
+                        if(!("prerequisites" in game)) {
+                            game.prerequisites = {};
+                        }
+                        if(!("achievements_ids" in game.prerequisites))
+        {
+            game.prerequisites.achievements_ids = [];
+        }
+        var ids = game.prerequisites.achievements_ids;
+        for(var j in ids) {
+            ids[j] = id + "/" + ids[j]
+        }
+                    }
                     callback(level);
                 }).error(function(a, b, c) {
             console.log("error while loading level " + id);
