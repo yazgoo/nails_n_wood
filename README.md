@@ -38,12 +38,16 @@ Writing achievements
 
 A map by itself can be fun, but what really can make it cooler
 is achievements. You define achievements in:
+
     achievements/$level_id.json
+
 Where level is the name of the level you want your achievement
 to be in.
 An achievements file contains a list of achievements, indexed by
 a local id for the achievements, the real id being:
+
     $level_id/$local_id
+
 Here is an example of such a file:
 
     {
