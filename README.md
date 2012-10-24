@@ -75,6 +75,13 @@ fallen under 10 seconds. Here are other variables:
 - hit\_count, the number of time the marble hit a nail
 - duration, the duration of the fall.
 
+Level writing
+-------------
+
+Levels group maps and achievements. You define them in:
+
+    level/$level_id.json
+
 Automated tests
 ---------------
 
