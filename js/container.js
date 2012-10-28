@@ -1,7 +1,39 @@
 var ContainerCallbacks = [];
+function Background(container)
+{
+    var loaded = false;
+    var id = 'background';
+    this.load = function(page)
+    {
+        $.get(page, function(data, textStatus, jqXHR) {
+            $('body').append("<div id='" + id + "'>"
+                + data + "</div>");
+            $("#" + id).css( {
+                //position: "absolute",
+                //top: 0,
+                //zIndex: 3,
+                visibility: "hidden",
+                width: $(name).width(),
+                    height: $(name).height() });
+        loaded = true;
+        }, "text").error(function(a, b) {
+            console.log(b);
+        });
+    }
+    this.show = function()
+    {
+        $("#" + id).css({visibility: "visible"});
+    }
+    this.hide = function()
+    {
+    }
+    return this;
+}
 function Container(name, callback)
 {
     this.items = [];
+    this.name = name;
+    this.parameters = {};
     this.html = function()
     {
         str = "";
@@ -42,6 +74,7 @@ function Container(name, callback)
                 }, "text");
         return this;
     }
+    this.background = new Background(this);
     this.html_contents = {};
     var html_contents = this.html_contents;
     window.addEventListener('popstate', function(event) {
@@ -91,7 +124,7 @@ function Container(name, callback)
                 return '<input type="button" ' +
                     'onclick="ContainerCallbacks['
                     + this.callback_id  + ']('+parameters+');" ' +
-                    'value="' + name + '" id="map"/>';
+                    'value="' + name + '" id="button"/>';
             }
         }
         function Toggle(default_state,

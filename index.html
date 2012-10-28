@@ -31,11 +31,18 @@ type="text/css" href="style/container.css" />
                         if(ids.length == 0)
                         {
                             container.pushState("level.game_" + val).clear();
-                            container.include('game.html',
+                            container.parameters.game = game;
+                            Achievements(levelId).get(
+                            function callback(ach) {
+                                _achievements = ach;
+                                load_map();
+                                container.background.show();
+                            });
+                            /*container.include('game.html',
                             {
                                 game: game,
                                 level_id: levelId
-                            });
+                            });*/
                         }
                         else
                         {
@@ -57,14 +64,15 @@ type="text/css" href="style/container.css" />
     }
     var container = new Container(
     "#menu_container", function(container) {
-        container.addImage("img/logo.png");
-        container.render();
-        setTimeout(function()
+        $.getJSON("settings.json",
+        function(settings, textStatus, jqXHR)
         {
-            $.getJSON("settings.json",
-            function(settings, textStatus, jqXHR)
+            container.settings = settings;
+            container.background.load("game.html");
+            container.addImage("img/logo.png");
+            container.render();
+            setTimeout(function()
             {
-                container.settings = settings;
                 container.clear();
                 container.addSection("Levels", function(section) {
                     var levels = new Levels();

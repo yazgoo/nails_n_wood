@@ -176,7 +176,7 @@ function GameInstance(physics)
             container.settings.graphics.value.trackball.value;
         game.use_model =
             container.settings.graphics.value.use_model.value;
-        Achievements(container.parameters.level_id).get(
+        /*Achievements(container.parameters.level_id).get(
                 function callback(ach) {
                 _achievements = ach;
                 game.end_game_callback = end_game;
@@ -184,7 +184,13 @@ function GameInstance(physics)
                 setup_controls();
                 load_map();
                 game.main();
-                });
+                });*/
+        _achievements = {};
+        game.end_game_callback = end_game;
+        game.setup_interface();
+        setup_controls();
+        //load_map();
+        game.main();
     }
 }
 if(container != undefined && container.settings != undefined
